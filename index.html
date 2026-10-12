@@ -1,1041 +1,479 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Hearthstone: Dad & Me Connection Locket</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            rose: {
-              50: '#fff1f2',
-              100: '#ffe4e6',
-              500: '#f43f5e',
-              600: '#e11d48',
-              900: '#881337',
-            },
-            amber: {
-              50: '#fffbeb',
-              500: '#f59e0b',
-              900: '#78350f',
-            }
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hearthstone: Dad & Me Connection Locket</title>
+    <style>
+        :root {
+            --bg-main: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(226, 232, 240, 0.8);
+            --text-main: #0f172a;
+            --text-sub: #64748b;
+            --accent: #e11d48;
+            --accent-soft: rgba(225, 29, 72, 0.1);
+            --badge-bg: #ffe4e6;
+            --badge-text: #9f1239;
+            --input-bg: #f1f5f9;
         }
-      }
-    }
-  </script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    @keyframes pulse-subtle {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.05); opacity: 0.9; }
-    }
-    .animate-pulse-subtle {
-      animation: pulse-subtle 3s infinite ease-in-out;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-6px); }
-    }
-    .animate-float {
-      animation: float 4s infinite ease-in-out;
-    }
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(156, 163, 175, 0.4);
-      border-radius: 9999px;
-    }
-  </style>
+
+        [data-theme="dark"] {
+            --bg-main: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.85);
+            --card-border: rgba(51, 65, 85, 0.8);
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --accent: #fb7185;
+            --accent-soft: rgba(251, 113, 133, 0.15);
+            --badge-bg: rgba(251, 113, 133, 0.2);
+            --badge-text: #fecdd3;
+            --input-bg: #1e293b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 60px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        /* Header Bar */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+        }
+
+        .sync-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-sub);
+        }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            background: var(--card-bg);
+            padding: 6px;
+            border-radius: 14px;
+            border: 1px solid var(--card-border);
+            margin-bottom: 20px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-sub);
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+        .tab-btn.active {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Grid & Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 16px; }
+        
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .badge {
+            background: var(--badge-bg);
+            color: var(--badge-text);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Countdown */
+        .countdown-box {
+            text-align: center;
+            background: var(--accent-soft);
+            border: 1px solid var(--accent);
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+        .timer-grid { display: flex; justify-content: center; gap: 16px; margin-top: 10px; }
+        .timer-val { font-size: 1.6rem; font-weight: 800; color: var(--accent); }
+        .timer-label { font-size: 0.7rem; color: var(--text-sub); text-transform: uppercase; }
+
+        /* Form Controls */
+        input, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            background: var(--input-bg);
+            color: var(--text-main);
+            margin: 6px 0 14px 0;
+            outline: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: var(--accent);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+        .btn:hover { opacity: 0.9; }
+
+        /* Modal Overlay for Recipient Hug Notification */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 320px;
+            border: 1px solid var(--card-border);
+        }
+
+        /* Toast Popup */
+        #toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+            z-index: 999;
+        }
+        #toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
 </head>
-<body class="bg-rose-50/50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+<body data-theme="light">
 
-  <!-- Top Navigation Header -->
-  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-rose-100 dark:border-slate-800 shadow-sm transition-colors duration-300">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-3">
-      
-      <!-- Brand & Sync Status -->
-      <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
-        <div class="flex items-center gap-2">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-500 to-amber-400 flex items-center justify-center text-white shadow-md shadow-rose-500/20 text-xl font-bold">
-            🔒
-          </div>
-          <div>
-            <h1 class="font-extrabold text-lg leading-tight tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-              The Hearthstone
-              <span class="text-xs px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/80 text-rose-600 dark:text-rose-300 font-semibold border border-rose-200 dark:border-rose-800/50">Locket Sync</span>
-            </h1>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Hannah (NC 🇺🇸) &amp; Daddy (Belgium 🇧🇪)</p>
-          </div>
-        </div>
-
-        <!-- Sync Badge -->
-        <div id="syncBadge" class="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-          <span id="syncStatusText">🟢 Connected to Ocean Sync</span>
-        </div>
-      </div>
-
-      <!-- Tab Buttons Navigation -->
-      <nav class="flex items-center gap-1 bg-slate-100/80 dark:bg-slate-800/80 p-1.5 rounded-2xl w-full md:w-auto overflow-x-auto border border-slate-200/60 dark:border-slate-700/60">
-        <button onclick="switchTab('hannahView')" id="tab-hannahView" class="tab-btn px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap bg-white dark:bg-slate-700 text-rose-600 dark:text-rose-300 shadow-sm">
-          <span>👧 Hannah's View</span>
-        </button>
-        <button onclick="switchTab('daddyView')" id="tab-daddyView" class="tab-btn px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
-          <span>👨 Daddy's View</span>
-        </button>
-        <button onclick="switchTab('hannahControls')" id="tab-hannahControls" class="tab-btn px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
-          <span>✍️ Hannah's Controls</span>
-        </button>
-        <button onclick="switchTab('daddyControls')" id="tab-daddyControls" class="tab-btn px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
-          <span>🛠️ Daddy's Controls</span>
-        </button>
-        <button onclick="openSettingsModal()" class="px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 transition-all ml-auto flex items-center gap-1">
-          <span>Settings ⚙️</span>
-        </button>
-      </nav>
-
-    </div>
-  </header>
-
-  <!-- Countdown Banner across views -->
-  <section class="bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 text-white shadow-inner py-2.5 px-4">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
-      <div class="flex items-center gap-2">
-        <span class="text-xl animate-float">✈️</span>
-        <div>
-          <span class="font-bold text-sm tracking-wide">Next Re-Union Visit:</span>
-          <span id="countdownTargetLabel" class="text-xs opacity-90 block sm:inline sm:ml-2 font-medium">Loading target...</span>
-        </div>
-      </div>
-      <!-- Countdown Numbers -->
-      <div class="flex items-center gap-2 font-mono font-black text-sm">
-        <div class="bg-black/20 backdrop-blur-sm px-2.5 py-1 rounded-lg border border-white/20">
-          <span id="cdDays">00</span><span class="text-[10px] font-normal text-rose-100 block -mt-1">DAYS</span>
-        </div>
-        <span>:</span>
-        <div class="bg-black/20 backdrop-blur-sm px-2.5 py-1 rounded-lg border border-white/20">
-          <span id="cdHours">00</span><span class="text-[10px] font-normal text-rose-100 block -mt-1">HRS</span>
-        </div>
-        <span>:</span>
-        <div class="bg-black/20 backdrop-blur-sm px-2.5 py-1 rounded-lg border border-white/20">
-          <span id="cdMins">00</span><span class="text-[10px] font-normal text-rose-100 block -mt-1">MIN</span>
-        </div>
-        <span>:</span>
-        <div class="bg-black/20 backdrop-blur-sm px-2.5 py-1 rounded-lg border border-white/20">
-          <span id="cdSecs">00</span><span class="text-[10px] font-normal text-rose-100 block -mt-1">SEC</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <main class="max-w-6xl mx-auto px-4 py-6 flex-1 w-full">
-
-    <!-- ========================================== -->
-    <!-- TAB 1: HANNAH'S VIEW                       -->
-    <!-- ========================================== -->
-    <div id="view-hannahView" class="tab-content space-y-6">
-      
-      <!-- Top Banner Header for Hannah -->
-      <div class="bg-gradient-to-r from-rose-100 to-pink-100 dark:from-slate-900 dark:to-rose-950/40 border border-rose-200 dark:border-rose-900/40 rounded-3xl p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="space-y-1 text-center md:text-left">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 dark:bg-rose-500/20 text-rose-600 dark:text-rose-300 text-xs font-bold">
-            <span>🇺🇸 North Carolina, USA</span>
-          </div>
-          <h2 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Hannah's Locket Portal</h2>
-          <p class="text-sm text-slate-600 dark:text-slate-300">Checking in on Daddy in Belgium and sending love across the ocean.</p>
-        </div>
-        <!-- Time Zone Cards -->
-        <div class="flex items-center gap-3">
-          <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur border border-rose-100 dark:border-slate-700 p-3 rounded-2xl text-center min-w-[120px]">
-            <p class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">My Time (NC)</p>
-            <p id="hannahLocalTime" class="text-base font-black text-rose-600 dark:text-rose-400">00:00 AM</p>
-          </div>
-          <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur border border-rose-100 dark:border-slate-700 p-3 rounded-2xl text-center min-w-[120px]">
-            <p class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Daddy's Time (BE)</p>
-            <p id="hannahViewDaddyTime" class="text-base font-black text-amber-600 dark:text-amber-400">00:00 PM</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Dual Cards Row: Hannah's Mood & Daddy's Mood -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
-        <!-- Hannah's Mood Card (Local) -->
-        <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4 relative overflow-hidden">
-          <div class="absolute top-0 right-0 w-24 h-24 bg-rose-500/5 rounded-bl-full pointer-events-none"></div>
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-rose-500 dark:text-rose-400 flex items-center gap-1.5">
-              <span>👧</span> My Status (Hannah)
-            </span>
-            <span class="text-xs text-slate-400" id="hannahMoodUpdated">Updated just now</span>
-          </div>
-
-          <div class="flex items-center gap-4 bg-rose-50/50 dark:bg-slate-800/50 p-4 rounded-2xl border border-rose-100/80 dark:border-slate-700/60">
-            <div id="hannahMoodEmoji" class="text-4xl p-2 bg-white dark:bg-slate-700 rounded-2xl shadow-sm border border-rose-100 dark:border-slate-600 animate-pulse-subtle">😊</div>
-            <div>
-              <p class="text-xs text-slate-400 font-medium">Current Mood</p>
-              <p id="hannahMoodText" class="text-lg font-extrabold text-slate-900 dark:text-white">Happy &amp; Cozy</p>
+    <div class="container">
+        <!-- Header -->
+        <div class="header-bar">
+            <h2 style="font-size: 1.1rem;">The Hearthstone Locket</h2>
+            <div class="sync-indicator">
+                <div class="status-dot"></div>
+                <span id="sync-text">Live Firebase Sync</span>
             </div>
-          </div>
+        </div>
 
-          <div>
-            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Hannah's Note for Today:</p>
-            <div class="bg-slate-50 dark:bg-slate-800/80 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-200 min-h-[70px]" id="hannahViewNote">
-              "Counting down the days! Excited for our next call!"
+        <!-- Navigation -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('hannah')">Hannah's View</button>
+            <button class="tab-btn" onclick="switchTab('daddy')">Daddy's View</button>
+            <button class="tab-btn" onclick="switchTab('controls-hannah')">Hannah Controls</button>
+            <button class="tab-btn" onclick="switchTab('controls-daddy')">Daddy Controls</button>
+        </div>
+
+        <!-- Live Countdown -->
+        <div class="countdown-box">
+            <span class="badge">NEXT VISIT</span>
+            <div class="timer-grid">
+                <div><div class="timer-val" id="cd-days">--</div><div class="timer-label">Days</div></div>
+                <div><div class="timer-val" id="cd-hours">--</div><div class="timer-label">Hours</div></div>
+                <div><div class="timer-val" id="cd-mins">--</div><div class="timer-label">Mins</div></div>
+                <div><div class="timer-val" id="cd-secs">--</div><div class="timer-label">Secs</div></div>
             </div>
-          </div>
         </div>
 
-        <!-- Daddy's Mood Card (Remote) -->
-        <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4 relative overflow-hidden">
-          <div class="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-bl-full pointer-events-none"></div>
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-amber-500 dark:text-amber-400 flex items-center gap-1.5">
-              <span>👨</span> Daddy's Status (Belgium)
-            </span>
-            <span class="text-xs text-slate-400" id="daddyMoodUpdated">Updated 5m ago</span>
-          </div>
-
-          <div class="flex items-center gap-4 bg-amber-50/50 dark:bg-slate-800/50 p-4 rounded-2xl border border-amber-100/80 dark:border-slate-700/60">
-            <div id="daddyMoodEmoji" class="text-4xl p-2 bg-white dark:bg-slate-700 rounded-2xl shadow-sm border border-amber-100 dark:border-slate-600 animate-pulse-subtle">☕</div>
-            <div>
-              <p class="text-xs text-slate-400 font-medium">Daddy's Current Mood</p>
-              <p id="daddyMoodText" class="text-lg font-extrabold text-slate-900 dark:text-white">Thinking of You</p>
+        <!-- TAB 1: HANNAH'S VIEW -->
+        <div id="tab-hannah" class="tab-content active">
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header"><span>Hannah's Mood</span><span class="badge">NC 🇺🇸</span></div>
+                    <div id="hannah-mood-display" style="font-size: 1.1rem; font-weight: 600;">Loading...</div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><span>Daddy's Mood</span><span class="badge">Belgium 🇧🇪</span></div>
+                    <div id="daddy-mood-display-hannah" style="font-size: 1.1rem; font-weight: 600;">Loading...</div>
+                </div>
             </div>
-          </div>
 
-          <div>
-            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Daddy's Note for Hannah:</p>
-            <div class="bg-slate-50 dark:bg-slate-800/80 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-200 min-h-[70px]" id="hannahViewDaddyNote">
-              "Working hard today sweetie! Can't wait to hear all about your day."
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header"><span>Hannah's Daily Note</span><span class="badge">24h</span></div>
+                    <p id="hannah-note-display">Loading...</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><span>Daddy's Daily Note</span><span class="badge">24h</span></div>
+                    <p id="daddy-note-display-hannah">Loading...</p>
+                </div>
             </div>
-          </div>
+
+            <div class="card" style="text-align: center;">
+                <div class="card-header"><span>Send Hug to Daddy 🤗</span></div>
+                <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 12px;" id="hug-count-hannah">Hugs exchanged: 0</p>
+                <button class="btn" onclick="sendHug('Hannah')">Send Hug across the Atlantic 💕</button>
+            </div>
         </div>
 
-      </div>
+        <!-- TAB 2: DADDY'S VIEW -->
+        <div id="tab-daddy" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header"><span>Daddy's Mood</span><span class="badge">Belgium 🇧🇪</span></div>
+                    <div id="daddy-mood-display" style="font-size: 1.1rem; font-weight: 600;">Loading...</div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><span>Hannah's Mood</span><span class="badge">NC 🇺🇸</span></div>
+                    <div id="hannah-mood-display-daddy" style="font-size: 1.1rem; font-weight: 600;">Loading...</div>
+                </div>
+            </div>
 
-      <!-- Hug Connection & Interaction Section -->
-      <div class="bg-gradient-to-br from-rose-500 to-pink-600 text-white rounded-3xl p-6 md:p-8 shadow-lg shadow-rose-500/15 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="space-y-2 text-center md:text-left">
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold">
-            <span>💖 Hug Connection Teleport</span>
-          </div>
-          <h3 class="text-2xl font-black">Send a Hug across the Atlantic</h3>
-          <p class="text-xs md:text-sm text-rose-100 max-w-md">
-            Pressing this button will ping Daddy's screen directly in Belgium! It will trigger a cozy warmth modal on his device.
-          </p>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header"><span>Daddy's Daily Note</span><span class="badge">24h</span></div>
+                    <p id="daddy-note-display">Loading...</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><span>Hannah's Daily Note</span><span class="badge">24h</span></div>
+                    <p id="hannah-note-display-daddy">Loading...</p>
+                </div>
+            </div>
+
+            <div class="card" style="text-align: center;">
+                <div class="card-header"><span>Send Hug to Hannah 🤗</span></div>
+                <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 12px;" id="hug-count-daddy">Hugs exchanged: 0</p>
+                <button class="btn" onclick="sendHug('Daddy')">Send Hug across the Atlantic 💕</button>
+            </div>
         </div>
 
-        <div class="flex flex-col items-center gap-3">
-          <button onclick="sendHugToDaddy()" class="group relative px-8 py-4 rounded-2xl bg-white text-rose-600 font-black text-lg shadow-xl hover:bg-rose-50 active:scale-95 transition-all flex items-center gap-3">
-            <span class="text-2xl group-hover:scale-125 transition-transform">🤗</span>
-            <span>Send Hug to Daddy 💕</span>
-          </button>
-          <div class="text-xs font-semibold text-rose-100 flex items-center gap-2">
-            <span>Sent Hugs Total: <strong id="hugsSentCount" class="text-white font-mono text-sm">0</strong></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Dinner Feed & Reactions Section -->
-      <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
-          <div>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <span>🍽️</span> Dinner &amp; Daily Photo Feed
-            </h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Share dinner moments and react with sweet stamps</p>
-          </div>
-          <button onclick="switchTab('hannahControls')" class="px-3 py-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-300 text-xs font-bold border border-rose-200 dark:border-rose-800 hover:bg-rose-100 transition-all text-center">
-            + Post New Photo
-          </button>
+        <!-- TAB 3: HANNAH'S CONTROLS -->
+        <div id="tab-controls-hannah" class="tab-content">
+            <div class="card">
+                <div class="card-header"><span>Hannah's Updates</span></div>
+                <label>Your Mood:</label>
+                <input type="text" id="input-hannah-mood" placeholder="Feeling happy 😊">
+                <label>Your Daily Note:</label>
+                <textarea id="input-hannah-note" placeholder="Write a note for Daddy..."></textarea>
+                <button class="btn" onclick="updateHannahStatus()">Publish Updates</button>
+            </div>
         </div>
 
-        <!-- Photos Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="dinnerFeedGridHannah">
-          <!-- Populated by JS -->
-        </div>
-      </div>
+        <!-- TAB 4: DADDY'S CONTROLS -->
+        <div id="tab-controls-daddy" class="tab-content">
+            <div class="card" style="margin-bottom: 16px;">
+                <div class="card-header"><span>Daddy's Updates</span></div>
+                <label>Your Mood:</label>
+                <input type="text" id="input-daddy-mood" placeholder="Feeling proud 🌟">
+                <label>Your Daily Note:</label>
+                <textarea id="input-daddy-note" placeholder="Write a note for Hannah..."></textarea>
+                <button class="btn" onclick="updateDaddyStatus()">Publish Updates</button>
+            </div>
 
+            <div class="card">
+                <div class="card-header"><span>Appearance Settings</span></div>
+                <button class="btn" style="background: #475569;" onclick="toggleTheme()">Toggle Light / Dark Mode ☀️🌙</button>
+            </div>
+        </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- TAB 2: DADDY'S VIEW (MIRROR SYMMETRICAL)   -->
-    <!-- ========================================== -->
-    <div id="view-daddyView" class="tab-content hidden space-y-6">
-      
-      <!-- Top Banner Header for Daddy -->
-      <div class="bg-gradient-to-r from-amber-100 to-orange-100 dark:from-slate-900 dark:to-amber-950/40 border border-amber-200 dark:border-amber-900/40 rounded-3xl p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="space-y-1 text-center md:text-left">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 text-xs font-bold">
-            <span>🇧🇪 Brussels / Flanders, Belgium</span>
-          </div>
-          <h2 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Daddy's Locket Portal</h2>
-          <p class="text-sm text-slate-600 dark:text-slate-300">Checking in on Hannah in North Carolina and staying connected.</p>
+    <!-- Hug Pop-Up Modal (Triggers ONLY for recipient) -->
+    <div class="modal-overlay" id="hug-modal">
+        <div class="modal-card">
+            <h2 style="font-size: 2rem; margin-bottom: 8px;">🤗</h2>
+            <h3 id="hug-modal-title" style="margin-bottom: 8px;">You Received a Hug!</h3>
+            <p id="hug-modal-text" style="color: var(--text-sub); margin-bottom: 16px; font-size: 0.9rem;"></p>
+            <button class="btn" onclick="closeHugModal()">Acknowledge Hug 💕</button>
         </div>
-        <!-- Time Zone Cards -->
-        <div class="flex items-center gap-3">
-          <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur border border-amber-100 dark:border-slate-700 p-3 rounded-2xl text-center min-w-[120px]">
-            <p class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">My Time (BE)</p>
-            <p id="daddyLocalTime" class="text-base font-black text-amber-600 dark:text-amber-400">00:00 PM</p>
-          </div>
-          <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur border border-amber-100 dark:border-slate-700 p-3 rounded-2xl text-center min-w-[120px]">
-            <p class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Hannah's Time (NC)</p>
-            <p id="daddyViewHannahTime" class="text-base font-black text-rose-600 dark:text-rose-400">00:00 AM</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Dual Cards Row: Daddy's Mood & Hannah's Mood (Mirror Symmetrical) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
-        <!-- Daddy's Mood Card (Local) -->
-        <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4 relative overflow-hidden">
-          <div class="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-bl-full pointer-events-none"></div>
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-amber-500 dark:text-amber-400 flex items-center gap-1.5">
-              <span>👨</span> My Status (Daddy)
-            </span>
-            <span class="text-xs text-slate-400" id="daddySelfMoodUpdated">Updated just now</span>
-          </div>
-
-          <div class="flex items-center gap-4 bg-amber-50/50 dark:bg-slate-800/50 p-4 rounded-2xl border border-amber-100/80 dark:border-slate-700/60">
-            <div id="daddySelfMoodEmoji" class="text-4xl p-2 bg-white dark:bg-slate-700 rounded-2xl shadow-sm border border-amber-100 dark:border-slate-600 animate-pulse-subtle">☕</div>
-            <div>
-              <p class="text-xs text-slate-400 font-medium">Current Mood</p>
-              <p id="daddySelfMoodText" class="text-lg font-extrabold text-slate-900 dark:text-white">Thinking of You</p>
-            </div>
-          </div>
-
-          <div>
-            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Daddy's Note for Today:</p>
-            <div class="bg-slate-50 dark:bg-slate-800/80 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-200 min-h-[70px]" id="daddyViewNote">
-              "Working hard today sweetie! Can't wait to hear all about your day."
-            </div>
-          </div>
-        </div>
-
-        <!-- Hannah's Mood Card (Remote) -->
-        <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4 relative overflow-hidden">
-          <div class="absolute top-0 right-0 w-24 h-24 bg-rose-500/5 rounded-bl-full pointer-events-none"></div>
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-rose-500 dark:text-rose-400 flex items-center gap-1.5">
-              <span>👧</span> Hannah's Status (NC)
-            </span>
-            <span class="text-xs text-slate-400" id="hannahRemoteMoodUpdated">Updated 2m ago</span>
-          </div>
-
-          <div class="flex items-center gap-4 bg-rose-50/50 dark:bg-slate-800/50 p-4 rounded-2xl border border-rose-100/80 dark:border-slate-700/60">
-            <div id="daddyViewHannahEmoji" class="text-4xl p-2 bg-white dark:bg-slate-700 rounded-2xl shadow-sm border border-rose-100 dark:border-slate-600 animate-pulse-subtle">😊</div>
-            <div>
-              <p class="text-xs text-slate-400 font-medium">Hannah's Current Mood</p>
-              <p id="daddyViewHannahMoodText" class="text-lg font-extrabold text-slate-900 dark:text-white">Happy &amp; Cozy</p>
-            </div>
-          </div>
-
-          <div>
-            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Hannah's Note for Daddy:</p>
-            <div class="bg-slate-50 dark:bg-slate-800/80 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-200 min-h-[70px]" id="daddyViewHannahNote">
-              "Counting down the days! Excited for our next call!"
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Hug Connection & Interaction Section (Daddy Side) -->
-      <div class="bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-6 md:p-8 shadow-lg shadow-amber-500/15 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="space-y-2 text-center md:text-left">
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold">
-            <span>💖 Hug Connection Teleport</span>
-          </div>
-          <h3 class="text-2xl font-black">Send a Hug across to Hannah</h3>
-          <p class="text-xs md:text-sm text-amber-100 max-w-md">
-            Pressing this button will ping Hannah's screen directly in North Carolina! It will trigger a cozy warmth modal on her device.
-          </p>
-        </div>
-
-        <div class="flex flex-col items-center gap-3">
-          <button onclick="sendHugToHannah()" class="group relative px-8 py-4 rounded-2xl bg-white text-amber-600 font-black text-lg shadow-xl hover:bg-amber-50 active:scale-95 transition-all flex items-center gap-3">
-            <span class="text-2xl group-hover:scale-125 transition-transform">🤗</span>
-            <span>Send Hug to Hannah 💕</span>
-          </button>
-          <div class="text-xs font-semibold text-amber-100 flex items-center gap-2">
-            <span>Received Hugs Total: <strong id="daddyHugsReceivedCount" class="text-white font-mono text-sm">0</strong></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Dinner Feed Mirror -->
-      <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
-          <div>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <span>🍽️</span> Dinner &amp; Daily Photo Feed
-            </h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Share dinner moments and react with sweet stamps</p>
-          </div>
-          <button onclick="switchTab('daddyControls')" class="px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 text-xs font-bold border border-amber-200 dark:border-amber-800 hover:bg-amber-100 transition-all text-center">
-            + Post New Photo
-          </button>
-        </div>
-
-        <!-- Photos Grid Mirror -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="dinnerFeedGridDaddy">
-          <!-- Populated by JS -->
-        </div>
-      </div>
-
     </div>
 
-    <!-- ========================================== -->
-    <!-- TAB 3: HANNAH'S CONTROLS                   -->
-    <!-- ========================================== -->
-    <div id="view-hannahControls" class="tab-content hidden max-w-2xl mx-auto space-y-6">
-      
-      <div class="bg-white dark:bg-slate-900 border border-rose-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-6">
-        <div class="border-b border-slate-100 dark:border-slate-800 pb-4 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-300 flex items-center justify-center font-bold text-lg">
-            ✍️
-          </div>
-          <div>
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Hannah's Input &amp; Status Controls</h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Update your current mood, daily note, and dinner photos</p>
-          </div>
-        </div>
-
-        <!-- Form for Hannah -->
-        <form onsubmit="handleHannahSave(event)" class="space-y-4">
-          
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Select Your Mood</label>
-            <div class="grid grid-cols-4 sm:grid-cols-6 gap-2" id="hannahEmojiSelector">
-              <!-- JS Populated Emojis -->
-            </div>
-            <input type="hidden" id="inputHannahEmoji" value="😊">
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Mood Label</label>
-            <input type="text" id="inputHannahMoodText" value="Happy &amp; Cozy" class="w-full px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-rose-500">
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Hannah's Daily Note for Daddy</label>
-            <textarea id="inputHannahNote" rows="3" class="w-full px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-rose-500">Counting down the days! Excited for our next call!</textarea>
-          </div>
-
-          <div class="pt-2">
-            <button type="submit" class="w-full py-3.5 px-6 rounded-2xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2">
-              <span>Save &amp; Broadcast to Daddy 📡</span>
-            </button>
-          </div>
-        </form>
-
-        <!-- Hannah Photo Upload Simulator -->
-        <div class="border-t border-slate-100 dark:border-slate-800 pt-6 space-y-4">
-          <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <span>📸</span> Add Dinner Photo from Hannah
-          </h3>
-          <div class="flex gap-2">
-            <input type="text" id="inputHannahPhotoUrl" placeholder="Enter photo URL or sample..." value="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&amp;auto=format&amp;fit=crop&amp;q=80" class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs">
-            <button onclick="addPhotoFromHannah()" class="px-4 py-2.5 rounded-xl bg-slate-900 dark:bg-slate-700 text-white text-xs font-bold hover:bg-slate-800 transition-all">
-              Add Photo
-            </button>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- ========================================== -->
-    <!-- TAB 4: DADDY'S CONTROLS                    -->
-    <!-- ========================================== -->
-    <div id="view-daddyControls" class="tab-content hidden max-w-2xl mx-auto space-y-6">
-      
-      <div class="bg-white dark:bg-slate-900 border border-amber-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-6">
-        <div class="border-b border-slate-100 dark:border-slate-800 pb-4 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 flex items-center justify-center font-bold text-lg">
-            🛠️
-          </div>
-          <div>
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Daddy's Input &amp; Status Controls</h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Update your current mood, daily note, and dinner photos</p>
-          </div>
-        </div>
-
-        <!-- Form for Daddy -->
-        <form onsubmit="handleDaddySave(event)" class="space-y-4">
-          
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Select Your Mood</label>
-            <div class="grid grid-cols-4 sm:grid-cols-6 gap-2" id="daddyEmojiSelector">
-              <!-- JS Populated Emojis -->
-            </div>
-            <input type="hidden" id="inputDaddyEmoji" value="☕">
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Mood Label</label>
-            <input type="text" id="inputDaddyMoodText" value="Thinking of You" class="w-full px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500">
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Daddy's Daily Note for Hannah</label>
-            <textarea id="inputDaddyNote" rows="3" class="w-full px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-amber-500">Working hard today sweetie! Can't wait to hear all about your day.</textarea>
-          </div>
-
-          <div class="pt-2">
-            <button type="submit" class="w-full py-3.5 px-6 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2">
-              <span>Save &amp; Broadcast to Hannah 📡</span>
-            </button>
-          </div>
-        </form>
-
-        <!-- Daddy Photo Upload Simulator -->
-        <div class="border-t border-slate-100 dark:border-slate-800 pt-6 space-y-4">
-          <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <span>📸</span> Add Dinner Photo from Belgium
-          </h3>
-          <div class="flex gap-2">
-            <input type="text" id="inputDaddyPhotoUrl" placeholder="Enter photo URL..." value="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&amp;auto=format&amp;fit=crop&amp;q=80" class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs">
-            <button onclick="addPhotoFromDaddy()" class="px-4 py-2.5 rounded-xl bg-slate-900 dark:bg-slate-700 text-white text-xs font-bold hover:bg-slate-800 transition-all">
-              Add Photo
-            </button>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-  </main>
-
-  <!-- ========================================== -->
-  <!-- MODAL 1: SETTINGS MODAL                    -->
-  <!-- ========================================== -->
-  <div id="settingsModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-6 transform scale-95 transition-transform duration-300" id="settingsModalBox">
-      
-      <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
-        <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          <span>⚙️</span> App Settings
-        </h3>
-        <button onclick="closeSettingsModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center font-bold">
-          ✕
-        </button>
-      </div>
-
-      <div class="space-y-4">
-        
-        <!-- Theme Toggle -->
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Appearance Theme</label>
-          <div class="grid grid-cols-2 gap-2">
-            <button onclick="setTheme('light')" id="themeBtnLight" class="p-3 rounded-2xl border-2 border-rose-500 bg-rose-50 text-rose-700 font-bold text-xs flex items-center justify-center gap-2">
-              <span>☀️ Pastel Light</span>
-            </button>
-            <button onclick="setTheme('dark')" id="themeBtnDark" class="p-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center justify-center gap-2">
-              <span>🌙 Deep Slate Dark</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Next Visit Date Input -->
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Next Re-Union Visit Date</label>
-          <input type="datetime-local" id="inputVisitDate" class="w-full px-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-rose-500">
-        </div>
-
-        <!-- Shared Sync Key -->
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Shared Ocean Sync Key</label>
-          <input type="text" id="inputSyncRoomKey" value="hearthstone-locket-2026" class="w-full px-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-mono font-bold focus:outline-none focus:ring-2 focus:ring-rose-500">
-          <p class="text-[10px] text-slate-400 mt-1">Both devices must use this identical key to sync live across the ocean without login.</p>
-        </div>
-
-      </div>
-
-      <div class="pt-2">
-        <button onclick="saveSettings()" class="w-full py-3 rounded-2xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-extrabold text-xs shadow-md hover:bg-slate-800 transition-all">
-          Save Settings
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ========================================== -->
-  <!-- MODAL 2: CELEBRATION HUG POPUP (TARGET ONLY)-->
-  <!-- ========================================== -->
-  <div id="hugModal" class="fixed inset-0 bg-rose-950/70 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
-    <div class="bg-white dark:bg-slate-900 border-2 border-rose-400 rounded-3xl max-w-sm w-full p-8 shadow-2xl text-center space-y-4 transform scale-90 transition-transform duration-300 relative overflow-hidden" id="hugModalBox">
-      
-      <!-- Sparkle Background Accents -->
-      <div class="absolute -top-10 -right-10 w-32 h-32 bg-rose-500/20 rounded-full blur-xl pointer-events-none"></div>
-      <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-amber-500/20 rounded-full blur-xl pointer-events-none"></div>
-
-      <div class="text-6xl animate-bounce">🤗✨</div>
-      <h3 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight" id="hugModalTitle">Incoming Ocean Hug!</h3>
-      <p class="text-sm font-medium text-slate-600 dark:text-slate-300" id="hugModalMessage">
-        Hannah sent you a big cozy hug across the ocean!
-      </p>
-
-      <div class="pt-2">
-        <button onclick="closeHugModal()" class="w-full py-3 px-6 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-black text-sm shadow-lg hover:from-rose-600 hover:to-pink-600 transition-all transform active:scale-95">
-          Receive Hug &amp; Warmth 💕
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    const DEFAULT_STATE = {
-      theme: 'light',
-      syncKey: 'hearthstone-locket-2026',
-      visitTargetDate: new Date(Date.now() + 24 * 3600 * 1000 * 42).toISOString(), // 42 days out default
-      
-      hannah: {
-        emoji: '😊',
-        moodText: 'Happy & Cozy',
-        note: 'Counting down the days! Excited for our next call!',
-        lastUpdated: new Date().toISOString()
-      },
-      daddy: {
-        emoji: '☕',
-        moodText: 'Thinking of You',
-        note: 'Working hard today sweetie! Can\'t wait to hear all about your day.',
-        lastUpdated: new Date().toISOString()
-      },
-
-      hugsSentCount: 0,
-      hugsReceivedCount: 0,
-      
-      photos: [
-        {
-          id: 'photo-1',
-          author: 'Hannah',
-          url: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80',
-          caption: 'Fresh colorful salad bowl for dinner!',
-          timestamp: '6:30 PM (NC)',
-          reactions: { '❤️': 2, '😋': 1 }
-        },
-        {
-          id: 'photo-2',
-          author: 'Daddy',
-          url: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&auto=format&fit=crop&q=80',
-          caption: 'Belgian waffles & evening tea!',
-          timestamp: '8:15 PM (BE)',
-          reactions: { '❤️': 3, '👏': 2 }
-        }
-      ],
-
-      lastHugTimestamp: null,
-      lastHugSender: null
-    };
-
-    let appState = JSON.parse(localStorage.getItem('hearthstone_state')) || DEFAULT_STATE;
-    let activeTab = 'hannahView';
-    let localSeenHugTimestamp = appState.lastHugTimestamp;
-
-    const EMOJI_OPTIONS = ['😊', '🥰', '☕', '📚', '🌟', '😴', '🍕', '🎉', '🎨', '💪', '🍦', '❤️'];
-
-    window.onload = function() {
-      initEmojiSelectors();
-      applyTheme(appState.theme);
-      updateUI();
-      startClocks();
-      startSyncLoop();
-    };
-
-    function saveLocalState() {
-      localStorage.setItem('hearthstone_state', JSON.stringify(appState));
-    }
-
-    function switchTab(tabId) {
-      activeTab = tabId;
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.getElementById('view-' + tabId).classList.remove('hidden');
-
-      // Update Nav Button Styles
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.className = 'tab-btn px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white';
-      });
-
-      const activeBtn = document.getElementById('tab-' + tabId);
-      if (activeBtn) {
-        activeBtn.className = 'tab-btn px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap bg-white dark:bg-slate-700 text-rose-600 dark:text-rose-300 shadow-sm';
-      }
-    }
-
-    function initEmojiSelectors() {
-      const hContainer = document.getElementById('hannahEmojiSelector');
-      const dContainer = document.getElementById('daddyEmojiSelector');
-      
-      hContainer.innerHTML = '';
-      dContainer.innerHTML = '';
-
-      EMOJI_OPTIONS.forEach(emoji => {
-        const btnH = document.createElement('button');
-        btnH.type = 'button';
-        btnH.className = 'p-2.5 text-xl rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-rose-50 dark:hover:bg-slate-800 transition-all text-center';
-        btnH.innerText = emoji;
-        btnH.onclick = () => selectEmoji('hannah', emoji, btnH);
-        hContainer.appendChild(btnH);
-
-        const btnD = document.createElement('button');
-        btnD.type = 'button';
-        btnD.className = 'p-2.5 text-xl rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-amber-50 dark:hover:bg-slate-800 transition-all text-center';
-        btnD.innerText = emoji;
-        btnD.onclick = () => selectEmoji('daddy', emoji, btnD);
-        dContainer.appendChild(btnD);
-      });
-    }
-
-    function selectEmoji(target, emoji, btnEl) {
-      if (target === 'hannah') {
-        document.getElementById('inputHannahEmoji').value = emoji;
-        document.querySelectorAll('#hannahEmojiSelector button').forEach(b => b.classList.remove('ring-2', 'ring-rose-500', 'bg-rose-100'));
-        btnEl.classList.add('ring-2', 'ring-rose-500', 'bg-rose-100');
-      } else {
-        document.getElementById('inputDaddyEmoji').value = emoji;
-        document.querySelectorAll('#daddyEmojiSelector button').forEach(b => b.classList.remove('ring-2', 'ring-amber-500', 'bg-amber-100'));
-        btnEl.classList.add('ring-2', 'ring-amber-500', 'bg-amber-100');
-      }
-    }
-
-    function handleHannahSave(e) {
-      e.preventDefault();
-      appState.hannah.emoji = document.getElementById('inputHannahEmoji').value;
-      appState.hannah.moodText = document.getElementById('inputHannahMoodText').value;
-      appState.hannah.note = document.getElementById('inputHannahNote').value;
-      appState.hannah.lastUpdated = new Date().toISOString();
-      
-      saveLocalState();
-      broadcastState();
-      updateUI();
-      switchTab('hannahView');
-    }
-
-    function handleDaddySave(e) {
-      e.preventDefault();
-      appState.daddy.emoji = document.getElementById('inputDaddyEmoji').value;
-      appState.daddy.moodText = document.getElementById('inputDaddyMoodText').value;
-      appState.daddy.note = document.getElementById('inputDaddyNote').value;
-      appState.daddy.lastUpdated = new Date().toISOString();
-      
-      saveLocalState();
-      broadcastState();
-      updateUI();
-      switchTab('daddyView');
-    }
-
-    function addPhotoFromHannah() {
-      const url = document.getElementById('inputHannahPhotoUrl').value;
-      if (!url) return;
-      appState.photos.unshift({
-        id: 'photo-' + Date.now(),
-        author: 'Hannah',
-        url: url,
-        caption: 'Latest update from NC!',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' (NC)',
-        reactions: { '❤️': 1 }
-      });
-      saveLocalState();
-      broadcastState();
-      updateUI();
-      switchTab('hannahView');
-    }
-
-    function addPhotoFromDaddy() {
-      const url = document.getElementById('inputDaddyPhotoUrl').value;
-      if (!url) return;
-      appState.photos.unshift({
-        id: 'photo-' + Date.now(),
-        author: 'Daddy',
-        url: url,
-        caption: 'Greetings from Brussels!',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' (BE)',
-        reactions: { '❤️': 1 }
-      });
-      saveLocalState();
-      broadcastState();
-      updateUI();
-      switchTab('daddyView');
-    }
-
-    function reactToPhoto(photoId, emoji) {
-      const photo = appState.photos.find(p => p.id === photoId);
-      if (photo) {
-        photo.reactions[emoji] = (photo.reactions[emoji] || 0) + 1;
-        saveLocalState();
-        broadcastState();
-        updateUI();
-      }
-    }
-
-    function sendHugToDaddy() {
-      appState.hugsSentCount = (appState.hugsSentCount || 0) + 1;
-      appState.lastHugTimestamp = Date.now();
-      appState.lastHugSender = 'Hannah';
-      localSeenHugTimestamp = appState.lastHugTimestamp; // Prevent popup on Hannah's view!
-      
-      saveLocalState();
-      broadcastState();
-      updateUI();
-    }
-
-    function sendHugToHannah() {
-      appState.hugsReceivedCount = (appState.hugsReceivedCount || 0) + 1;
-      appState.lastHugTimestamp = Date.now();
-      appState.lastHugSender = 'Daddy';
-      localSeenHugTimestamp = appState.lastHugTimestamp; // Prevent popup on Daddy's view!
-
-      saveLocalState();
-      broadcastState();
-      updateUI();
-    }
-
-    function checkIncomingHugs() {
-      if (appState.lastHugTimestamp && appState.lastHugTimestamp > (localSeenHugTimestamp || 0)) {
-        localSeenHugTimestamp = appState.lastHugTimestamp;
-
-        // Hug Modal target check: Only trigger if looking at recipient view!
-        if (appState.lastHugSender === 'Hannah' && activeTab === 'daddyView') {
-          showHugModal('Incoming Ocean Hug from Hannah!', 'Hannah sent you a big cozy hug all the way from North Carolina! 💕');
-        } else if (appState.lastHugSender === 'Daddy' && activeTab === 'hannahView') {
-          showHugModal('Incoming Ocean Hug from Daddy!', 'Daddy sent you a big warm hug all the way from Belgium! 💕');
-        }
-      }
-    }
-
-    function showHugModal(title, msg) {
-      document.getElementById('hugModalTitle').innerText = title;
-      document.getElementById('hugModalMessage').innerText = msg;
-      
-      const modal = document.getElementById('hugModal');
-      const box = document.getElementById('hugModalBox');
-      modal.classList.remove('opacity-0', 'pointer-events-none');
-      box.classList.remove('scale-90');
-      box.classList.add('scale-100');
-    }
-
-    function closeHugModal() {
-      const modal = document.getElementById('hugModal');
-      const box = document.getElementById('hugModalBox');
-      modal.classList.add('opacity-0', 'pointer-events-none');
-      box.classList.remove('scale-100');
-      box.classList.add('scale-90');
-    }
-
-    function updateUI() {
-      // 1. Hannah's View Data
-      document.getElementById('hannahMoodEmoji').innerText = appState.hannah.emoji;
-      document.getElementById('hannahMoodText').innerText = appState.hannah.moodText;
-      document.getElementById('hannahViewNote').innerText = `"${appState.hannah.note}"`;
-
-      document.getElementById('daddyMoodEmoji').innerText = appState.daddy.emoji;
-      document.getElementById('daddyMoodText').innerText = appState.daddy.moodText;
-      document.getElementById('hannahViewDaddyNote').innerText = `"${appState.daddy.note}"`;
-
-      // 2. Daddy's View Data (Mirror)
-      document.getElementById('daddySelfMoodEmoji').innerText = appState.daddy.emoji;
-      document.getElementById('daddySelfMoodText').innerText = appState.daddy.moodText;
-      document.getElementById('daddyViewNote').innerText = `"${appState.daddy.note}"`;
-
-      document.getElementById('daddyViewHannahEmoji').innerText = appState.hannah.emoji;
-      document.getElementById('daddyViewHannahMoodText').innerText = appState.hannah.moodText;
-      document.getElementById('daddyViewHannahNote').innerText = `"${appState.hannah.note}"`;
-
-      // Counters
-      document.getElementById('hugsSentCount').innerText = appState.hugsSentCount || 0;
-      document.getElementById('daddyHugsReceivedCount').innerText = appState.hugsSentCount || 0;
-
-      // Render Dinner Feed
-      renderDinnerFeeds();
-
-      // Settings Inputs
-      document.getElementById('inputSyncRoomKey').value = appState.syncKey;
-      document.getElementById('inputVisitDate').value = appState.visitTargetDate ? appState.visitTargetDate.slice(0, 16) : '';
-    }
-
-    function renderDinnerFeeds() {
-      const feedH = document.getElementById('dinnerFeedGridHannah');
-      const feedD = document.getElementById('dinnerFeedGridDaddy');
-
-      const buildFeedHtml = (photo) => `
-        <div class="bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 rounded-2xl overflow-hidden flex flex-col">
-          <div class="p-3 flex items-center justify-between border-b border-slate-100 dark:border-slate-700/50">
-            <span class="text-xs font-extrabold text-slate-800 dark:text-slate-100">${photo.author === 'Hannah' ? '👧 Hannah (NC)' : '👨 Daddy (BE)'}</span>
-            <span class="text-[10px] text-slate-400 font-medium">${photo.timestamp}</span>
-          </div>
-          <div class="h-48 overflow-hidden bg-slate-200 dark:bg-slate-900">
-            <img src="${photo.url}" alt="Meal" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/fff1f2/e11d48?text=Meal+Photo'">
-          </div>
-          <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
-            <p class="text-xs text-slate-700 dark:text-slate-300 font-medium">${photo.caption}</p>
-            <div class="flex items-center gap-2 pt-2 border-t border-slate-200/40 dark:border-slate-700/40">
-              <button onclick="reactToPhoto('${photo.id}', '❤️')" class="px-2.5 py-1 rounded-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-semibold hover:bg-rose-50 transition-all flex items-center gap-1">
-                <span>❤️</span> <span>${photo.reactions['❤️'] || 0}</span>
-              </button>
-              <button onclick="reactToPhoto('${photo.id}', '😋')" class="px-2.5 py-1 rounded-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-semibold hover:bg-rose-50 transition-all flex items-center gap-1">
-                <span>😋</span> <span>${photo.reactions['😋'] || 0}</span>
-              </button>
-              <button onclick="reactToPhoto('${photo.id}', '👏')" class="px-2.5 py-1 rounded-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-semibold hover:bg-rose-50 transition-all flex items-center gap-1">
-                <span>👏</span> <span>${photo.reactions['👏'] || 0}</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-
-      const contentHtml = appState.photos.map(buildFeedHtml).join('');
-      feedH.innerHTML = contentHtml;
-      feedD.innerHTML = contentHtml;
-    }
-
-    function startClocks() {
-      setInterval(updateClocks, 1000);
-      updateClocks();
-    }
-
-    function updateClocks() {
-      const now = new Date();
-
-      // Time in North Carolina (US Eastern)
-      const ncTimeStr = now.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit' });
-      document.getElementById('hannahLocalTime').innerText = ncTimeStr;
-      document.getElementById('daddyViewHannahTime').innerText = ncTimeStr;
-
-      // Time in Belgium (Central European)
-      const beTimeStr = now.toLocaleTimeString('en-US', { timeZone: 'Europe/Brussels', hour: '2-digit', minute: '2-digit' });
-      document.getElementById('hannahViewDaddyTime').innerText = beTimeStr;
-      document.getElementById('daddyLocalTime').innerText = beTimeStr;
-
-      // Countdown Timer Logic
-      const targetTime = new Date(appState.visitTargetDate || Date.now() + 100000000).getTime();
-      const diff = targetTime - now.getTime();
-
-      if (diff > 0) {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const secs = Math.floor((diff % (1000 * 60)) / 1000);
-
-        document.getElementById('cdDays').innerText = String(days).padStart(2, '0');
-        document.getElementById('cdHours').innerText = String(hours).padStart(2, '0');
-        document.getElementById('cdMins').innerText = String(mins).padStart(2, '0');
-        document.getElementById('cdSecs').innerText = String(secs).padStart(2, '0');
-
-        document.getElementById('countdownTargetLabel').innerText = new Date(appState.visitTargetDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-      } else {
-        document.getElementById('cdDays').innerText = '00';
-        document.getElementById('cdHours').innerText = '00';
-        document.getElementById('cdMins').innerText = '00';
-        document.getElementById('cdSecs').innerText = '00';
-        document.getElementById('countdownTargetLabel').innerText = 'Re-Union Today! 🎉';
-      }
-    }
-
-    function startSyncLoop() {
-      setInterval(pollRemoteSync, 3000);
-      pollRemoteSync();
-    }
-
-    async function broadcastState() {
-      try {
-        const room = appState.syncKey || 'hearthstone-locket-2026';
-        await fetch(`https://api.restful-api.dev/objects`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: room,
-            data: appState
-          })
+    <div id="toast">Saved!</div>
+
+    <!-- Firebase SDK Setup -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Your exact Firebase Project Keys
+        const firebaseConfig = {
+            apiKey: "AIzaSyA2NDCvxloZrwu9la18LUQ1IjwZQn5rAvc",
+            authDomain: "locket-5a92b.firebaseapp.com",
+            projectId: "locket-5a92b",
+            storageBucket: "locket-5a92b.firebasestorage.app",
+            messagingSenderId: "963902357235",
+            appId: "1:963902357235:web:07f1e7b6fbcd6ac6160186",
+            measurementId: "G-1LV4FY71GK"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const locketRef = doc(db, "locket", "sharedData");
+
+        let activeRole = "Hannah"; // Tracks active tab context
+        let hugCount = 0;
+
+        // Realtime Listener across Atlantic
+        onSnapshot(locketRef, (docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+
+                // Update Hannah displays
+                document.getElementById('hannah-mood-display').innerText = data.hannahMood || "Feeling Great 😊";
+                document.getElementById('hannah-mood-display-daddy').innerText = data.hannahMood || "Feeling Great 😊";
+                document.getElementById('hannah-note-display').innerText = data.hannahNote || "Have a awesome day!";
+                document.getElementById('hannah-note-display-daddy').innerText = data.hannahNote || "Have a awesome day!";
+
+                // Update Daddy displays
+                document.getElementById('daddy-mood-display').innerText = data.daddyMood || "Feeling Proud 🌟";
+                document.getElementById('daddy-mood-display-hannah').innerText = data.daddyMood || "Feeling Proud 🌟";
+                document.getElementById('daddy-note-display').innerText = data.daddyNote || "Miss you Hannah!";
+                document.getElementById('daddy-note-display-hannah').innerText = data.daddyNote || "Miss you Hannah!";
+
+                // Hug Routing Logic (Triggers popup on recipient device)
+                if (data.lastHugSender) {
+                    hugCount = data.totalHugs || 0;
+                    document.getElementById('hug-count-hannah').innerText = `Hugs exchanged: ${hugCount}`;
+                    document.getElementById('hug-count-daddy').innerText = `Hugs exchanged: ${hugCount}`;
+
+                    // Check if current view is recipient
+                    if ((data.lastHugSender === "Hannah" && activeRole === "Daddy") ||
+                        (data.lastHugSender === "Daddy" && activeRole === "Hannah")) {
+                        
+                        document.getElementById('hug-modal-title').innerText = `${data.lastHugSender} sent you a Hug!`;
+                        document.getElementById('hug-modal-text').innerText = `A warm hug arrived across the Atlantic!`;
+                        document.getElementById('hug-modal').classList.add('active');
+                    }
+                }
+            } else {
+                // Initialize default state if new
+                setDoc(locketRef, {
+                    hannahMood: "Feeling Happy 😊",
+                    hannahNote: "Miss you Daddy!",
+                    daddyMood: "Feeling Proud 🌟",
+                    daddyNote: "Good luck today, Hannah!",
+                    totalHugs: 0
+                });
+            }
         });
-      } catch (e) {
-        console.warn('Sync broadcast fallback to local storage', e);
-      }
-    }
 
-    async function pollRemoteSync() {
-      try {
-        // Simple public endpoint simulation check & state sync
-        const room = appState.syncKey || 'hearthstone-locket-2026';
-        
-        // Update badge UI
-        document.getElementById('syncStatusText').innerText = '🟢 Connected to Ocean Sync';
-        
-        // Check incoming hugs for active screen
-        checkIncomingHugs();
+        // Publish Actions
+        window.updateHannahStatus = async function() {
+            const mood = document.getElementById('input-hannah-mood').value;
+            const note = document.getElementById('input-hannah-note').value;
+            let updatePayload = {};
+            if(mood) updatePayload.hannahMood = mood;
+            if(note) updatePayload.hannahNote = note;
 
-      } catch (e) {
-        document.getElementById('syncStatusText').innerText = '🟡 Local Relay Sync';
-      }
-    }
+            await setDoc(locketRef, updatePayload, { merge: true });
+            showToast("Hannah's updates synced live!");
+        };
 
-    function openSettingsModal() {
-      const modal = document.getElementById('settingsModal');
-      const box = document.getElementById('settingsModalBox');
-      modal.classList.remove('opacity-0', 'pointer-events-none');
-      box.classList.remove('scale-95');
-      box.classList.add('scale-100');
-    }
+        window.updateDaddyStatus = async function() {
+            const mood = document.getElementById('input-daddy-mood').value;
+            const note = document.getElementById('input-daddy-note').value;
+            let updatePayload = {};
+            if(mood) updatePayload.daddyMood = mood;
+            if(note) updatePayload.daddyNote = note;
 
-    function closeSettingsModal() {
-      const modal = document.getElementById('settingsModal');
-      const box = document.getElementById('settingsModalBox');
-      modal.classList.add('opacity-0', 'pointer-events-none');
-      box.classList.remove('scale-100');
-      box.classList.add('scale-95');
-    }
+            await setDoc(locketRef, updatePayload, { merge: true });
+            showToast("Daddy's updates synced live!");
+        };
 
-    function setTheme(theme) {
-      appState.theme = theme;
-      applyTheme(theme);
-      saveLocalState();
-    }
+        window.sendHug = async function(sender) {
+            hugCount++;
+            await setDoc(locketRef, {
+                lastHugSender: sender,
+                lastHugTime: Date.now(),
+                totalHugs: hugCount
+            }, { merge: true });
+            showToast("Hug sent across the Atlantic! 💕");
+        };
 
-    function applyTheme(theme) {
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-        document.getElementById('themeBtnDark').className = 'p-3 rounded-2xl border-2 border-rose-500 bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-2';
-        document.getElementById('themeBtnLight').className = 'p-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center justify-center gap-2';
-      } else {
-        document.documentElement.classList.remove('dark');
-        document.getElementById('themeBtnLight').className = 'p-3 rounded-2xl border-2 border-rose-500 bg-rose-50 text-rose-700 font-bold text-xs flex items-center justify-center gap-2';
-        document.getElementById('themeBtnDark').className = 'p-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center justify-center gap-2';
-      }
-    }
+        window.switchTab = function(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tabName).classList.add('active');
 
-    function saveSettings() {
-      const newKey = document.getElementById('inputSyncRoomKey').value;
-      const newDate = document.getElementById('inputVisitDate').value;
+            if(tabName.includes('hannah')) activeRole = "Hannah";
+            if(tabName.includes('daddy')) activeRole = "Daddy";
+        };
 
-      if (newKey) appState.syncKey = newKey;
-      if (newDate) appState.visitTargetDate = new Date(newDate).toISOString();
+        window.closeHugModal = function() {
+            document.getElementById('hug-modal').classList.remove('active');
+        };
 
-      saveLocalState();
-      broadcastState();
-      updateUI();
-      closeSettingsModal();
-    }
-  </script>
+        window.toggleTheme = function() {
+            const body = document.body;
+            const current = body.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', next);
+            showToast("Switched to " + next + " mode!");
+        };
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2200);
+        }
+
+        // Live Visit Countdown Timer
+        const visitDate = new Date("November 25, 2026 00:00:00").getTime();
+        setInterval(() => {
+            const diff = visitDate - new Date().getTime();
+            if(diff > 0) {
+                document.getElementById('cd-days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('cd-hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('cd-mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('cd-secs').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+            }
+        }, 1000);
+    </script>
 </body>
 </html>
