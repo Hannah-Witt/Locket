@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Hearthstone: Dad & Me Connection Locket</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            fredoka: ['Fredoka', 'sans-serif'],
+            quicksand: ['Quicksand', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      transition: background 0.5s ease, color 0.3s ease;
+    }
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    /* Glassmorphism Styles */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    .dark .glass-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .glass-card-subtle {
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .dark .glass-card-subtle {
+      background: rgba(30, 41, 59, 0.55);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Theme Palettes */
+    .theme-fall {
+      --accent-main: #d97706;
+      --accent-hover: #b45309;
+      --accent-light: #fef3c7;
+      --bg-gradient: linear-gradient(135deg, #2a1a08 0%, #451a03 50%, #0f172a 100%);
+      --bg-light: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #f8fafc 100%);
+    }
+    .theme-halloween {
+      --accent-main: #9333ea;
+      --accent-hover: #7e22ce;
+      --accent-light: #f3e8ff;
+      --bg-gradient: linear-gradient(135deg, #1e1b4b 0%, #311042 50%, #0f172a 100%);
+      --bg-light: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 50%, #f8fafc 100%);
+    }
+    .theme-christmas {
+      --accent-main: #dc2626;
+      --accent-hover: #b91c1c;
+      --accent-light: #fee2e2;
+      --bg-gradient: linear-gradient(135deg, #064e3b 0%, #1e1b4b 50%, #450a0a 100%);
+      --bg-light: linear-gradient(135deg, #fef2f2 0%, #ecfdf5 50%, #f8fafc 100%);
+    }
+    .theme-winter {
+      --accent-main: #0284c7;
+      --accent-hover: #0369a1;
+      --accent-light: #e0f2fe;
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0369a1 100%);
+      --bg-light: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f8fafc 100%);
+    }
+    .theme-valentine {
+      --accent-main: #e11d48;
+      --accent-hover: #be123c;
+      --accent-light: #ffe4e6;
+      --bg-gradient: linear-gradient(135deg, #4c0519 0%, #831843 50%, #0f172a 100%);
+      --bg-light: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 50%, #f8fafc 100%);
+    }
+    .theme-spring {
+      --accent-main: #ec4899;
+      --accent-hover: #be185d;
+      --accent-light: #fce7f3;
+      --bg-gradient: linear-gradient(135deg, #4c0519 0%, #312e81 50%, #0f172a 100%);
+      --bg-light: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #f8fafc 100%);
+    }
+    .theme-summer {
+      --accent-main: #f59e0b;
+      --accent-hover: #d97706;
+      --accent-light: #fef3c7;
+      --bg-gradient: linear-gradient(135deg, #1e3a8a 0%, #312e81 50%, #78350f 100%);
+      --bg-light: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #f8fafc 100%);
+    }
+    .theme-purple {
+      --accent-main: #7c3aed;
+      --accent-hover: #6d28d9;
+      --accent-light: #ede9fe;
+      --bg-gradient: linear-gradient(135deg, #2e1065 0%, #1e1b4b 50%, #0f172a 100%);
+      --bg-light: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 50%, #f8fafc 100%);
+    }
+    .theme-green {
+      --accent-main: #059669;
+      --accent-hover: #047857;
+      --accent-light: #d1fae5;
+      --bg-gradient: linear-gradient(135deg, #064e3b 0%, #022c22 50%, #0f172a 100%);
+      --bg-light: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #f8fafc 100%);
+    }
+    .theme-blue {
+      --accent-main: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-light: #dbeafe;
+      --bg-gradient: linear-gradient(135deg, #1e3a8a 0%, #172554 50%, #0f172a 100%);
+      --bg-light: linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #f8fafc 100%);
+    }
+
+    body.dark { background: var(--bg-gradient); }
+    body:not(.dark) { background: var(--bg-light); color: #0f172a; }
+
+    .accent-bg { background-color: var(--accent-main); }
+    .accent-bg:hover { background-color: var(--accent-hover); }
+    .accent-text { color: var(--accent-main); }
+    .accent-border { border-color: var(--accent-main); }
+    .accent-ring:focus { --tw-ring-color: var(--accent-main); }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.4); border-radius: 9999px; }
+
+    /* Toast Notification Animation */
+    @keyframes toastSlide {
+      0% { transform: translateY(-100%) translateX(-50%); opacity: 0; }
+      15% { transform: translateY(0) translateX(-50%); opacity: 1; }
+      85% { transform: translateY(0) translateX(-50%); opacity: 1; }
+      100% { transform: translateY(-100%) translateX(-50%); opacity: 0; }
+    }
+    .animate-toast {
+      animation: toastSlide 2.8s ease-in-out forwards;
+    }
+  </style>
+</head>
+<body class="theme-fall dark text-slate-100 min-h-screen flex flex-col justify-between relative overflow-x-hidden">
+
+  <!-- TOP STATIC VECTOR OVERLAY (BATS, LEAVES, SNOWFLAKES) -->
+  <div id="top-svg-layer" class="fixed top-0 left-0 right-0 h-28 pointer-events-none z-0 opacity-80 transition-all duration-500">
+  </div>
+
+  <!-- BOTTOM STATIC VECTOR OVERLAY (JACK-O-LANTERNS, LEAF PILE, TREES, FLOWERS) -->
+  <div id="bottom-svg-layer" class="fixed bottom-0 left-0 right-0 h-28 pointer-events-none z-0 opacity-80 transition-all duration-500">
+  </div>
+
+  <!-- TOAST NOTIFICATION POPUP -->
+  <div id="toast-notification" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none hidden">
+    <div class="accent-bg text-white px-6 py-3 rounded-2xl font-bold shadow-2xl flex items-center space-x-2 border-2 border-white/40">
+      <i class="fa-solid fa-heart-circle-check text-xl animate-bounce"></i>
+      <span id="toast-message" class="text-sm">Message</span>
+    </div>
+  </div>
+
+  <!-- HEADER NAVIGATION -->
+  <header class="sticky top-0 z-40 backdrop-blur-xl bg-white/70 dark:bg-slate-900/70 border-b border-white/20 dark:border-slate-800 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-3">
+      
+      <!-- Brand & Heart Logo -->
+      <div class="flex items-center space-x-3">
+        <div id="logo-heart-icon" class="w-11 h-11 rounded-2xl accent-bg text-white flex items-center justify-center text-2xl shadow-lg transition-transform hover:scale-105 active:scale-95">
+          <i class="fa-solid fa-heart-circle-bolt animate-pulse"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-wide flex items-center gap-2">
+            The Hearthstone
+            <span class="text-xs font-normal px-2 py-0.5 rounded-full bg-white/30 dark:bg-slate-800/60 border border-white/20">Dad & Me Locket</span>
+          </h1>
+          <p class="text-xs text-slate-600 dark:text-slate-400">Mooresville NC 🇺🇸 ↔️ Europe 🇪🇺</p>
+        </div>
+      </div>
+
+      <!-- Actions & Mode Switcher -->
+      <div class="flex items-center space-x-3">
+        <button onclick="toggleDarkMode()" class="p-2.5 rounded-2xl bg-white/50 dark:bg-slate-800/50 hover:bg-white/80 dark:hover:bg-slate-700 border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-200 text-sm shadow-sm transition">
+          <i id="dark-mode-icon" class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="flex rounded-2xl bg-slate-200/60 dark:bg-slate-950/60 p-1 border border-white/20 dark:border-slate-800 text-xs sm:text-sm font-semibold">
+        <button onclick="switchTab('hannah-view')" id="tab-hannah-view" class="px-3.5 py-1.5 rounded-xl transition-all shadow-md bg-white dark:bg-slate-800 accent-text font-bold">👧 Hannah's View</button>
+        <button onclick="switchTab('daddy-view')" id="tab-daddy-view" class="px-3.5 py-1.5 rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">👨 Daddy's View</button>
+        <button onclick="switchTab('hannah-ctrl')" id="tab-hannah-ctrl" class="px-3.5 py-1.5 rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">⚙️ Hannah Controls</button>
+        <button onclick="switchTab('daddy-ctrl')" id="tab-daddy-ctrl" class="px-3.5 py-1.5 rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">⚙️ Daddy Controls</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6 relative z-10 my-2">
+
+    <!-- TAB 1: HANNAH'S VIEW -->
+    <div id="sec-hannah-view" class="tab-content space-y-6">
+      <div id="hannah-dashboard-container" class="space-y-6"></div>
+    </div>
+
+    <!-- TAB 2: DADDY'S VIEW -->
+    <div id="sec-daddy-view" class="tab-content hidden space-y-6">
+      <div id="daddy-dashboard-container" class="space-y-6"></div>
+    </div>
+
+    <!-- TAB 3: HANNAH CONTROLS -->
+    <div id="sec-hannah-ctrl" class="tab-content hidden space-y-6">
+      <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+        <h2 class="text-2xl font-bold accent-text flex items-center gap-2">
+          <i class="fa-solid fa-sliders"></i> Hannah's Personal Controls
+        </h2>
+
+        <!-- Mood Selector -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Update Hannah's Mood</label>
+          <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+            <button onclick="setMood('hannah', '😊', 'Happy & Cheerful')" class="p-3 glass-card-subtle hover:scale-105 rounded-2xl text-center border border-slate-200 dark:border-slate-700 transition">
+              <span class="text-3xl block">😊</span>
+              <span class="text-[10px] font-bold mt-1 block">Happy</span>
+            </button>
+            <button onclick="setMood('hannah', '🥳', 'Super Excited')" class="p-3 glass-card-subtle hover:scale-105 rounded-2xl text-center border border-slate-200 dark:border-slate-700 transition">
+              <span class="text-3xl block">🥳</span>
+              <span class="text-[10px] font-bold mt-1 block">Excited</span>
+            </button>
+            <button onclick="setMood('hannah', '😴', 'Sleepy / Tired')" class="p-3 glass-card-subtle hover:scale-105 rounded-2xl text-center border border-slate-200 dark:border-slate-700 transition">
+              <span class="text-3xl block">😴</span>
+              <span class="text-[10px] font-bold mt-1 block">Sleepy</span>
+            </button>
+            <button onclick="setMood('hannah', '📚', 'Studying / Hard at Work')" class="p-3 glass-card-subtle hover:scale-105 rounded-2xl text-center border border-slate-200 dark:border-slate-700 transition">
+              <span class="text-3xl block">📚</span>
+              <span class="text-[10px] font-bold mt-1 block">Busy</span>
+            </button>
+            <button onclick="setMood('hannah', '💖', 'Feeling Loved')" class="p-3 glass-card-subtle hover:scale-105 rounded-2xl text-center border border-slate-200 dark:border-slate-700 transition">
+              <span class="text-3xl block">💖</span>
+              <span class="text-[10px] font-bold mt-1 block">Loved</span>
+            </button>
+            <button onclick="setMood('hannah', '🥺', 'Missing Daddy')" class="p-3 glass-card-subtle hover:scale-105 rounded-2xl text-center border border-slate-200 dark:border-slate-700 transition">
+              <span class="text-3xl block">🥺</span>
+              <span class="text-[10px] font-bold mt-1 block">Missing Dad</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 24-Hour Daily Note Input -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Update Hannah's 24-Hour Note</label>
+          <div class="flex gap-2">
+            <input type="text" id="ctrl-hannah-note" placeholder="Write a note for Daddy..." class="flex-1 px-4 py-3 glass-card-subtle border border-slate-300 dark:border-slate-700 rounded-2xl text-sm focus:outline-none focus:ring-2 accent-ring">
+            <button onclick="saveHannahNote(this)" class="accent-bg text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-md hover:opacity-90 transition">
+              Save Note
+            </button>
+          </div>
+        </div>
+
+        <!-- Seasonal Theme Selector -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Seasonal Locket Theme & Background Vector Art</label>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            <button onclick="setTheme('fall')" class="p-3.5 bg-amber-500/10 border-2 border-amber-500 rounded-2xl text-left font-bold text-xs text-amber-700 dark:text-amber-300 hover:scale-102 transition">
+              🍂 Fall Harvest
+            </button>
+            <button onclick="setTheme('halloween')" class="p-3.5 bg-purple-500/10 border-2 border-purple-500 rounded-2xl text-left font-bold text-xs text-purple-700 dark:text-purple-300 hover:scale-102 transition">
+              🎃 Halloween
+            </button>
+            <button onclick="setTheme('christmas')" class="p-3.5 bg-red-500/10 border-2 border-red-500 rounded-2xl text-left font-bold text-xs text-red-700 dark:text-red-300 hover:scale-102 transition">
+              🎄 Christmas
+            </button>
+            <button onclick="setTheme('winter')" class="p-3.5 bg-sky-500/10 border-2 border-sky-500 rounded-2xl text-left font-bold text-xs text-sky-700 dark:text-sky-300 hover:scale-102 transition">
+              ❄️ Frosty Winter
+            </button>
+            <button onclick="setTheme('valentine')" class="p-3.5 bg-rose-500/10 border-2 border-rose-500 rounded-2xl text-left font-bold text-xs text-rose-700 dark:text-rose-300 hover:scale-102 transition">
+              💘 Valentine
+            </button>
+            <button onclick="setTheme('spring')" class="p-3.5 bg-pink-500/10 border-2 border-pink-500 rounded-2xl text-left font-bold text-xs text-pink-700 dark:text-pink-300 hover:scale-102 transition">
+              🌸 Spring Bloom
+            </button>
+            <button onclick="setTheme('summer')" class="p-3.5 bg-amber-400/10 border-2 border-amber-400 rounded-2xl text-left font-bold text-xs text-amber-600 dark:text-amber-300 hover:scale-102 transition">
+              ☀️ Sunshine Summer
+            </button>
+            <button onclick="setTheme('purple')" class="p-3.5 bg-purple-600/10 border-2 border-purple-600 rounded-2xl text-left font-bold text-xs text-purple-700 dark:text-purple-300 hover:scale-102 transition">
+              💜 Deep Violet
+            </button>
+            <button onclick="setTheme('green')" class="p-3.5 bg-emerald-500/10 border-2 border-emerald-500 rounded-2xl text-left font-bold text-xs text-emerald-700 dark:text-emerald-300 hover:scale-102 transition">
+              🌿 Emerald
+            </button>
+            <button onclick="setTheme('blue')" class="p-3.5 bg-blue-500/10 border-2 border-blue-500 rounded-2xl text-left font-bold text-xs text-blue-700 dark:text-blue-300 hover:scale-102 transition">
+              🌊 Ocean Breeze
+            </button>
+          </div>
+        </div>
+
+        <!-- Drag & Drop Hug Photo Upload Vault -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Hug Photo Vault (Drag & Drop or File Upload)</label>
+          <div id="drop-zone" onclick="document.getElementById('photo-file-input').click()" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-3xl p-8 text-center glass-card-subtle cursor-pointer hover:border-amber-500 transition">
+            <i class="fa-solid fa-cloud-arrow-up text-4xl accent-text mb-2"></i>
+            <p class="text-sm font-bold">Click or Drag & Drop a new Hug Memory Photo</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Updates the memory photo for sent hugs across both screens!</p>
+            <input type="file" id="photo-file-input" accept="image/*" class="hidden" onchange="handleFileUpload(event)">
+          </div>
+
+          <!-- Sample Photo Picker -->
+          <div class="mt-4">
+            <span class="text-xs font-bold text-slate-500 dark:text-slate-400 block mb-2">Or choose a sample hug photo:</span>
+            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+              <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=400&q=80" onclick="selectSamplePhoto(this.src)" class="h-20 w-full object-cover rounded-xl cursor-pointer hover:scale-105 border-2 border-transparent hover:border-amber-500 transition">
+              <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=400&q=80" onclick="selectSamplePhoto(this.src)" class="h-20 w-full object-cover rounded-xl cursor-pointer hover:scale-105 border-2 border-transparent hover:border-amber-500 transition">
+              <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80" onclick="selectSamplePhoto(this.src)" class="h-20 w-full object-cover rounded-xl cursor-pointer hover:scale-105 border-2 border-transparent hover:border-amber-500 transition">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: DADDY CONTROLS -->
+    <div id="sec-daddy-ctrl" class="tab-content hidden space-y-6">
+      <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+        <h2 class="text-2xl font-bold text-indigo-500 flex items-center gap-2">
+          <i class="fa-solid fa-plane-departure"></i> Daddy's European & Travel Controls
+        </h2>
+
+        <!-- Location Dropdown Selector -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Daddy's Current European Location</label>
+          <select id="ctrl-daddy-loc-select" onchange="updateDaddyLocation(this.value)" class="w-full px-4 py-3 glass-card-subtle border border-slate-300 dark:border-slate-700 rounded-2xl text-sm font-bold text-slate-800 dark:text-slate-100">
+            <option value="Brussels, Belgium|🇧🇪|+6">Brussels, Belgium 🇧🇪 (+6 hrs)</option>
+            <option value="Paris, France|🇫🇷|+6">Paris, France 🇫🇷 (+6 hrs)</option>
+            <option value="Berlin, Germany|🇩🇪|+6">Berlin, Germany 🇩🇪 (+6 hrs)</option>
+            <option value="Amsterdam, Netherlands|🇳🇱|+6">Amsterdam, Netherlands 🇳🇱 (+6 hrs)</option>
+            <option value="London, UK|🇬🇧|+5">London, United Kingdom 🇬🇧 (+5 hrs)</option>
+            <option value="Madrid, Spain|🇪🇸|+6">Madrid, Spain 🇪🇸 (+6 hrs)</option>
+            <option value="Rome, Italy|🇮🇹|+6">Rome, Italy 🇮🇹 (+6 hrs)</option>
+            <option value="Zurich, Switzerland|🇨🇭|+6">Zurich, Switzerland 🇨🇭 (+6 hrs)</option>
+            <option value="Vienna, Austria|🇦🇹|+6">Vienna, Austria 🇦🇹 (+6 hrs)</option>
+            <option value="Dublin, Ireland|🇮🇪|+5">Dublin, Ireland 🇮🇪 (+5 hrs)</option>
+          </select>
+        </div>
+
+        <!-- Mood Selector -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Update Daddy's Mood</label>
+          <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+            <button onclick="setMood('daddy', '☕', 'Working & Thinking of You')" class="p-3 glass-card-subtle hover:scale-105 rounded-2xl text-center border border-slate-200 dark:border-slate-700 transition">
+              <span class="text-3xl block">☕</span>
+              <span class="text-[10px] font-bold mt-1 block">Working</span>
+            </button>
+            <button onclick="setMood('daddy', '😊', 'Happy & relaxed')" class="p-3 glass-card-subtle hover:scale-105 rounded-2xl text-center border border-slate-200 dark:border-slate-700 transition">
+              <span class="text-3xl block">😊</span>
+              <span class="text-[10px] font-bold mt-1 block">Happy</span>
+            </button>
+            <button onclick="setMood('daddy', '😴', 'Sleepy / Long Day')" class="p-3 glass-card-subtle hover:scale-105 rounded-2xl text-center border border-slate-200 dark:border-slate-700 transition">
+              <span class="text-3xl block">😴</span>
+              <span class="text-[10px] font-bold mt-1 block">Sleepy</span>
+            </button>
+            <button onclick="setMood('daddy', '✈️', 'Traveling / On the Move')" class="p-3 glass-card-subtle hover:scale-105 rounded-2xl text-center border border-slate-200 dark:border-slate-700 transition">
+              <span class="text-3xl block">✈️</span>
+              <span class="text-[10px] font-bold mt-1 block">Traveling</span>
+            </button>
+            <button onclick="setMood('daddy', '🍕', 'Dinner Time')" class="p-3 glass-card-subtle hover:scale-105 rounded-2xl text-center border border-slate-200 dark:border-slate-700 transition">
+              <span class="text-3xl block">🍕</span>
+              <span class="text-[10px] font-bold mt-1 block">Dinner</span>
+            </button>
+            <button onclick="setMood('daddy', '💖', 'Missing Hannah')" class="p-3 glass-card-subtle hover:scale-105 rounded-2xl text-center border border-slate-200 dark:border-slate-700 transition">
+              <span class="text-3xl block">💖</span>
+              <span class="text-[10px] font-bold mt-1 block">Missing You</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 24-Hour Daily Note Input -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Update Daddy's 24-Hour Note</label>
+          <div class="flex gap-2">
+            <input type="text" id="ctrl-daddy-note" placeholder="Write a note for Hannah..." class="flex-1 px-4 py-3 glass-card-subtle border border-slate-300 dark:border-slate-700 rounded-2xl text-sm focus:outline-none focus:ring-2 accent-ring">
+            <button onclick="saveDaddyNote(this)" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-md hover:bg-indigo-700 transition">
+              Save Note
+            </button>
+          </div>
+        </div>
+
+        <!-- Countdown Target Date Picker -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Set Target Homecoming Date (Countdown Banner)</label>
+          <div class="flex gap-2">
+            <input type="datetime-local" id="ctrl-target-date" class="px-4 py-3 glass-card-subtle border border-slate-300 dark:border-slate-700 rounded-2xl text-sm font-mono text-slate-800 dark:text-slate-100">
+            <button onclick="saveCountdownDate(this)" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-md hover:bg-indigo-700 transition">
+              Update Countdown
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- HUG RECEPTION MODAL -->
+  <div id="hug-modal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card rounded-3xl p-8 max-w-md w-full text-center shadow-2xl border-2 accent-border relative transform transition-all scale-100">
+      <div id="hug-modal-badge" class="text-6xl mb-3 animate-bounce">🤗</div>
+      <h3 id="hug-modal-title" class="text-3xl font-bold accent-text font-heading mb-1">Transatlantic Hug!</h3>
+      <p id="hug-modal-subtitle" class="text-sm font-semibold text-slate-600 dark:text-slate-300 mb-4">Someone sent you love from across the ocean!</p>
+      
+      <!-- Photo Display Container -->
+      <div class="rounded-2xl overflow-hidden border-2 border-white/40 dark:border-slate-700 mb-6 shadow-inner bg-slate-100 dark:bg-slate-800 h-56 flex items-center justify-center">
+        <img id="hug-modal-photo" src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=80" alt="Hug Memory Photo" class="w-full h-full object-cover">
+      </div>
+
+      <button onclick="closeHugModal()" class="w-full accent-bg text-white py-3.5 rounded-2xl font-bold shadow-lg hover:opacity-90 active:scale-95 transition">
+        Accept Hug 💕
+      </button>
+    </div>
+  </div>
+
+  <!-- PAST WORDS ARCHIVE MODAL -->
+  <div id="word-vault-modal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card rounded-3xl p-6 max-w-lg w-full shadow-2xl border border-slate-200 dark:border-slate-700 max-h-[80vh] flex flex-col">
+      <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-200 dark:border-slate-700">
+        <h3 class="font-bold text-lg flex items-center gap-2">
+          <i class="fa-solid fa-vault accent-text"></i> Past Word of the Day Archive
+        </h3>
+        <button onclick="closeWordVault()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+      </div>
+      <div id="word-vault-list" class="flex-1 overflow-y-auto space-y-3 pr-1">
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center py-4 text-xs text-slate-500 dark:text-slate-400 relative z-10">
+    <p>The Hearthstone • Connecting Mooresville, NC & Europe 💖</p>
+  </footer>
+
+  <script>
+    const DEFAULT_PHOTO = "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=80";
+
+    let state = {
+      theme: 'fall',
+      darkMode: true,
+      targetDate: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000).toISOString(),
+      daddyLocation: 'Brussels, Belgium|🇧🇪|+6',
+      hugPhoto: DEFAULT_PHOTO,
+      hannahMood: { emoji: '😊', text: 'Happy & Cheerful' },
+      daddyMood: { emoji: '☕', text: 'Working & Thinking of You' },
+      hannahNote: "Had a wonderful day at school! Excited for dinner!",
+      daddyNote: "Finishing up meetings in Brussels. Sending lots of love!",
+      
+      // Hug Counters (Accurately tracked per direction)
+      hannahHugsSent: 0,
+      daddyHugsSent: 0,
+      
+      // Pending hug triggers
+      pendingHugForDaddy: false,
+      pendingHugForHannah: false,
+      lastHugOverlay: 'xoxo',
+
+      dinnerPosts: [
+        {
+          id: '1',
+          author: 'Hannah',
+          text: 'Made delicious pizza for dinner tonight! 🍕',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          timestamp: Date.now(),
+          reactions: { '❤️': 2, '👍': 1, '🤗': 1, '😄': 0, '👏': 0 }
+        }
+      ]
+    };
+
+    const PAST_WORDS = [
+      { word: "Resilience", def: "The capacity to withstand or recover quickly from difficulties; toughness." },
+      { word: "Serendipity", def: "The occurrence and development of events by chance in a happy or beneficial way." },
+      { word: "Transatlantic", def: "Crossing or extending across the Atlantic Ocean." },
+      { word: "Affections", def: "A gentle feeling of fondness, warmth, or attachment." }
+    ];
+
+    let activeTab = 'hannah-view';
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      applyTheme(state.theme);
+      applyDarkMode(state.darkMode);
+      renderDashboards();
+      startClocks();
+      startCountdown();
+      setupDragAndDrop();
+      checkPendingHugsForActiveTab();
+    });
+
+    function loadState() {
+      const saved = localStorage.getItem('hearthstone_state_v2');
+      if (saved) {
+        try { state = { ...state, ...JSON.parse(saved) }; } catch(e){}
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem('hearthstone_state_v2', JSON.stringify(state));
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notification');
+      const text = document.getElementById('toast-message');
+      text.innerText = msg;
+      toast.classList.remove('hidden');
+      toast.classList.add('animate-toast');
+      
+      setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('animate-toast');
+      }, 2800);
+    }
+
+    function buildDashboardHTML(viewerName) {
+      const isHannahView = viewerName === 'Hannah';
+
+      return `
+        <!-- 1. NEXT VISIT COUNTDOWN BANNER -->
+        <div class="glass-card rounded-3xl p-5 border-2 accent-border shadow-xl relative overflow-hidden">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-2xl accent-bg text-white flex items-center justify-center text-xl shadow-md">
+                <i class="fa-solid fa-plane-arrival animate-bounce"></i>
+              </div>
+              <div>
+                <h3 class="font-heading font-bold text-lg">Next Visit Countdown ✈️</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Until Daddy Lands Back Home in Mooresville!</p>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-2 sm:space-x-3 font-heading font-bold text-center">
+              <div class="glass-card-subtle px-3 py-1.5 rounded-2xl min-w-[55px]">
+                <span id="cd-${viewerName}-days" class="block text-2xl accent-text">00</span>
+                <span class="text-[9px] uppercase font-sans tracking-wide text-slate-500">Days</span>
+              </div>
+              <span class="text-xl accent-text">:</span>
+              <div class="glass-card-subtle px-3 py-1.5 rounded-2xl min-w-[55px]">
+                <span id="cd-${viewerName}-hours" class="block text-2xl accent-text">00</span>
+                <span class="text-[9px] uppercase font-sans tracking-wide text-slate-500">Hours</span>
+              </div>
+              <span class="text-xl accent-text">:</span>
+              <div class="glass-card-subtle px-3 py-1.5 rounded-2xl min-w-[55px]">
+                <span id="cd-${viewerName}-mins" class="block text-2xl accent-text">00</span>
+                <span class="text-[9px] uppercase font-sans tracking-wide text-slate-500">Mins</span>
+              </div>
+              <span class="text-xl accent-text">:</span>
+              <div class="glass-card-subtle px-3 py-1.5 rounded-2xl min-w-[55px]">
+                <span id="cd-${viewerName}-secs" class="block text-2xl accent-text">00</span>
+                <span class="text-[9px] uppercase font-sans tracking-wide text-slate-500">Secs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. DUAL LOCATIONS & LIVE WEATHER -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Mooresville Home Box -->
+          <div class="glass-card rounded-3xl p-5 shadow-lg relative overflow-hidden">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Hannah's Location</span>
+                <h4 class="text-xl font-bold">Mooresville, NC <span class="text-sm">🇺🇸</span></h4>
+                <p id="clock-nc-${viewerName}" class="text-2xl font-mono font-bold mt-1 accent-text">--:-- --</p>
+              </div>
+              <div class="text-right">
+                <i class="fa-solid fa-sun text-amber-400 text-3xl"></i>
+                <p class="text-sm font-bold mt-1">72°F</p>
+                <p class="text-[11px] text-slate-400">Sunny</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Europe Box -->
+          <div class="glass-card rounded-3xl p-5 shadow-lg relative overflow-hidden">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Daddy's Current Location</span>
+                <h4 id="daddy-loc-display-${viewerName}" class="text-xl font-bold">Brussels, Belgium <span class="text-sm">🇧🇪</span></h4>
+                <p id="clock-europe-${viewerName}" class="text-2xl font-mono font-bold mt-1 text-indigo-500">--:-- --</p>
+              </div>
+              <div class="text-right">
+                <i class="fa-solid fa-cloud-sun text-indigo-400 text-3xl"></i>
+                <p class="text-sm font-bold mt-1">61°F</p>
+                <p id="daddy-diff-display-${viewerName}" class="text-[11px] text-indigo-400 font-bold mt-0.5">+6 hrs ahead</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. DUAL MOOD CHECK-IN & INDEPENDENT 24-HR NOTES -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Hannah's Mood & Note Card -->
+          <div class="glass-card rounded-3xl p-6 border-l-4 accent-border shadow-xl flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <h4 class="font-bold text-lg flex items-center gap-2">👧 Hannah's Mood</h4>
+                <span class="text-[10px] font-bold px-2.5 py-1 rounded-full accent-bg text-white">Home NC</span>
+              </div>
+
+              <div class="flex items-center space-x-4 my-3">
+                <span id="hannah-mood-icon-${viewerName}" class="text-5xl filter drop-shadow">😊</span>
+                <div>
+                  <p id="hannah-mood-text-${viewerName}" class="text-xl font-bold">Happy & Cheerful</p>
+                  <p class="text-xs text-slate-400">Updated today</p>
+                </div>
+              </div>
+
+              <div class="mt-4 p-4 rounded-2xl bg-pink-500/10 border border-pink-500/30">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-pink-600 dark:text-pink-300 block mb-1">Hannah's 24-Hour Note:</span>
+                <p id="hannah-note-box-${viewerName}" class="text-sm italic font-medium text-slate-800 dark:text-slate-200">"${state.hannahNote}"</p>
+              </div>
+            </div>
+
+            <!-- Send Hug Action for Hannah -->
+            <div class="mt-5 pt-3 border-t border-slate-200/40 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <button onclick="triggerHugFrom('hannah')" class="accent-bg text-white px-4 py-2.5 rounded-2xl text-xs font-bold shadow hover:opacity-90 active:scale-95 transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-face-smile-hug"></i> Send Hug to Daddy 🤗
+              </button>
+              <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400 text-right">
+                <span>Sent: ${state.hannahHugsSent}</span> • <span>Recv: ${state.daddyHugsSent}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Daddy's Mood & Note Card -->
+          <div class="glass-card rounded-3xl p-6 border-l-4 border-indigo-500 shadow-xl flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <h4 class="font-bold text-lg flex items-center gap-2">👨 Daddy's Mood</h4>
+                <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-indigo-600 text-white">Europe</span>
+              </div>
+
+              <div class="flex items-center space-x-4 my-3">
+                <span id="daddy-mood-icon-${viewerName}" class="text-5xl filter drop-shadow">☕</span>
+                <div>
+                  <p id="daddy-mood-text-${viewerName}" class="text-xl font-bold">Working & Thinking of You</p>
+                  <p class="text-xs text-slate-400">Updated today</p>
+                </div>
+              </div>
+
+              <div class="mt-4 p-4 rounded-2xl bg-indigo-500/10 border border-indigo-500/30">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-300 block mb-1">Daddy's 24-Hour Note:</span>
+                <p id="daddy-note-box-${viewerName}" class="text-sm italic font-medium text-slate-800 dark:text-slate-200">"${state.daddyNote}"</p>
+              </div>
+            </div>
+
+            <!-- Send Hug Action for Daddy -->
+            <div class="mt-5 pt-3 border-t border-slate-200/40 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <button onclick="triggerHugFrom('daddy')" class="bg-indigo-600 text-white px-4 py-2.5 rounded-2xl text-xs font-bold shadow hover:bg-indigo-700 active:scale-95 transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-heart"></i> Hug Hannah 💕
+              </button>
+              <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400 text-right">
+                <span>Sent: ${state.daddyHugsSent}</span> • <span>Recv: ${state.hannahHugsSent}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 4. WORD OF THE DAY CARD -->
+        <div class="glass-card rounded-3xl p-5 shadow-lg flex flex-col md:flex-row justify-between items-center gap-4">
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-2xl accent-bg/20 accent-text flex items-center justify-center text-xl font-bold">
+              <i class="fa-solid fa-book-open"></i>
+            </div>
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Word of the Day</span>
+              <h4 class="text-lg font-bold accent-text">Resilience</h4>
+              <p class="text-xs text-slate-600 dark:text-slate-300">"The capacity to withstand or recover quickly from difficulties; toughness."</p>
+            </div>
+          </div>
+          <button onclick="openWordVault()" class="px-4 py-2.5 glass-card-subtle hover:bg-white/40 dark:hover:bg-slate-700 text-xs font-bold rounded-2xl transition flex items-center gap-2">
+            <i class="fa-solid fa-vault accent-text"></i> Past Words Archive 📅
+          </button>
+        </div>
+
+        <!-- 5. SHARED DINNER TABLE CATCH-UP FEED WITH EMOJI REACTIONS -->
+        <div class="glass-card rounded-3xl p-6 shadow-xl space-y-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <h4 class="text-lg font-bold flex items-center gap-2">🍽️ Dinner Table Catch-Up Feed</h4>
+              <p class="text-xs text-slate-400">Shared meal logs & daily updates across the ocean (Active for 3 days)</p>
+            </div>
+          </div>
+
+          <!-- Post Input Box -->
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input type="text" id="dinner-input-${viewerName}" placeholder="What did you have for dinner or do today?" class="flex-1 px-4 py-3 glass-card-subtle border border-slate-300 dark:border-slate-700 rounded-2xl text-sm focus:outline-none focus:ring-2 accent-ring">
+            <button onclick="postDinner('${viewerName}')" class="accent-bg text-white px-6 py-3 rounded-2xl font-bold text-sm shadow hover:opacity-90 transition">
+              Post Entry
+            </button>
+          </div>
+
+          <!-- Feed Posts -->
+          <div id="dinner-feed-list-${viewerName}" class="space-y-3 pt-2">
+          </div>
+        </div>
+      `;
+    }
+
+    function renderDashboards() {
+      document.getElementById('hannah-dashboard-container').innerHTML = buildDashboardHTML('Hannah');
+      document.getElementById('daddy-dashboard-container').innerHTML = buildDashboardHTML('Daddy');
+
+      ['Hannah', 'Daddy'].forEach(v => {
+        document.getElementById(`hannah-mood-icon-${v}`).innerText = state.hannahMood.emoji;
+        document.getElementById(`hannah-mood-text-${v}`).innerText = state.hannahMood.text;
+        document.getElementById(`hannah-note-box-${v}`).innerText = `"${state.hannahNote}"`;
+
+        document.getElementById(`daddy-mood-icon-${v}`).innerText = state.daddyMood.emoji;
+        document.getElementById(`daddy-mood-text-${v}`).innerText = state.daddyMood.text;
+        document.getElementById(`daddy-note-box-${v}`).innerText = `"${state.daddyNote}"`;
+
+        const [locName, locFlag, locDiff] = state.daddyLocation.split('|');
+        document.getElementById(`daddy-loc-display-${v}`).innerHTML = `${locName} <span class="text-sm">${locFlag}</span>`;
+        document.getElementById(`daddy-diff-display-${v}`).innerText = `${locDiff} hrs ahead of NC`;
+
+        renderDinnerFeed(v);
+      });
+    }
+
+    function triggerHugFrom(sender) {
+      state.lastHugOverlay = state.lastHugOverlay === 'hug' ? 'xoxo' : 'hug';
+
+      if (sender === 'hannah') {
+        state.hannahHugsSent++;
+        state.pendingHugForDaddy = true; // Queued specifically for Daddy's screen
+        showToast("Hug sent to Daddy! 💕");
+      } else {
+        state.daddyHugsSent++;
+        state.pendingHugForHannah = true; // Queued specifically for Hannah's screen
+        showToast("Hug sent to Hannah! 💕");
+      }
+
+      saveState();
+      renderDashboards();
+      checkPendingHugsForActiveTab();
+    }
+
+    function checkPendingHugsForActiveTab() {
+      if (activeTab === 'daddy-view' && state.pendingHugForDaddy) {
+        state.pendingHugForDaddy = false;
+        openHugModal("Hannah");
+        saveState();
+      } else if (activeTab === 'hannah-view' && state.pendingHugForHannah) {
+        state.pendingHugForHannah = false;
+        openHugModal("Daddy");
+        saveState();
+      }
+    }
+
+    function openHugModal(fromPerson) {
+      const modal = document.getElementById('hug-modal');
+      const badge = document.getElementById('hug-modal-badge');
+      const title = document.getElementById('hug-modal-title');
+      const subtitle = document.getElementById('hug-modal-subtitle');
+      const photo = document.getElementById('hug-modal-photo');
+
+      subtitle.innerText = `${fromPerson} sent you love from across the ocean!`;
+
+      if (state.lastHugOverlay === 'xoxo') {
+        badge.innerText = "💋";
+        title.innerText = "XOXO Hug Received!";
+      } else {
+        badge.innerText = "🤗";
+        title.innerText = "Big Warm Hug!";
+      }
+
+      photo.src = state.hugPhoto || DEFAULT_PHOTO;
+      modal.classList.remove('hidden');
+    }
+
+    function closeHugModal() {
+      document.getElementById('hug-modal').classList.add('hidden');
+    }
+
+    function applyTheme(themeName) {
+      state.theme = themeName;
+      document.body.className = document.body.className.replace(/theme-\w+/g, '');
+      document.body.classList.add(`theme-${themeName}`);
+
+      const topSvg = document.getElementById('top-svg-layer');
+      const bottomSvg = document.getElementById('bottom-svg-layer');
+
+      if (themeName === 'halloween') {
+        topSvg.innerHTML = `<svg viewBox="0 0 500 60" class="w-full h-full fill-purple-400/40"><path d="M20,30 Q30,10 40,30 Q50,45 60,30 M150,20 Q160,5 170,20 M320,35 Q330,15 340,35"/></svg>`;
+        bottomSvg.innerHTML = `<svg viewBox="0 0 500 60" class="w-full h-full fill-amber-500/50"><circle cx="40" cy="45" r="16"/><circle cx="180" cy="45" r="18"/><circle cx="340" cy="45" r="15"/><circle cx="460" cy="45" r="17"/></svg>`;
+      } else if (themeName === 'christmas') {
+        topSvg.innerHTML = `<svg viewBox="0 0 500 60" class="w-full h-full fill-slate-200/50"><circle cx="50" cy="20" r="5"/><circle cx="160" cy="30" r="7"/><circle cx="290" cy="15" r="6"/><circle cx="420" cy="25" r="5"/></svg>`;
+        bottomSvg.innerHTML = `<svg viewBox="0 0 500 60" class="w-full h-full fill-emerald-600/50"><polygon points="50,15 35,50 65,50"/><polygon points="200,10 185,50 215,50"/><polygon points="360,15 345,50 375,50"/></svg>`;
+      } else if (themeName === 'spring') {
+        topSvg.innerHTML = `<svg viewBox="0 0 500 60" class="w-full h-full fill-pink-300/40"><circle cx="60" cy="25" r="6"/><circle cx="220" cy="35" r="8"/><circle cx="390" cy="20" r="5"/></svg>`;
+        bottomSvg.innerHTML = `<svg viewBox="0 0 500 60" class="w-full h-full fill-pink-500/50"><path d="M50,50 Q50,25 60,50 M190,50 Q190,20 200,50 M350,50 Q350,25 360,50"/></svg>`;
+      } else if (themeName === 'winter') {
+        topSvg.innerHTML = `<svg viewBox="0 0 500 60" class="w-full h-full fill-sky-200/50"><circle cx="30" cy="15" r="4"/><circle cx="120" cy="25" r="6"/><circle cx="250" cy="10" r="5"/><circle cx="380" cy="30" r="6"/></svg>`;
+        bottomSvg.innerHTML = `<svg viewBox="0 0 500 60" class="w-full h-full fill-sky-300/40"><path d="M0,60 Q125,30 250,60 Q375,30 500,60 Z"/></svg>`;
+      } else if (themeName === 'valentine') {
+        topSvg.innerHTML = `<svg viewBox="0 0 500 60" class="w-full h-full fill-rose-300/40"><path d="M30,20 Q35,10 40,20 Q45,10 50,20 Q40,35 30,20 M180,25 Q185,15 190,25 M340,20 Q345,10 350,20"/></svg>`;
+        bottomSvg.innerHTML = `<svg viewBox="0 0 500 60" class="w-full h-full fill-rose-500/30"><path d="M0,60 Q250,20 500,60 Z"/></svg>`;
+      } else { 
+        topSvg.innerHTML = `<svg viewBox="0 0 500 60" class="w-full h-full fill-amber-400/40"><path d="M40,15 Q50,30 30,45 M200,20 Q210,35 190,45 M380,10 Q390,25 370,40"/></svg>`;
+        bottomSvg.innerHTML = `<svg viewBox="0 0 500 60" class="w-full h-full fill-amber-600/50"><path d="M20,60 Q60,35 100,60 M160,60 Q200,30 240,60 M320,60 Q360,35 400,60"/></svg>`;
+      }
+    }
+
+    function toggleDarkMode() {
+      state.darkMode = !state.darkMode;
+      applyDarkMode(state.darkMode);
+      saveState();
+    }
+
+    function applyDarkMode(isDark) {
+      const icon = document.getElementById('dark-mode-icon');
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        if (icon) icon.className = "fa-solid fa-moon text-amber-300";
+      } else {
+        document.documentElement.classList.remove('dark');
+        if (icon) icon.className = "fa-solid fa-sun text-amber-500";
+      }
+    }
+
+    function startClocks() {
+      setInterval(() => {
+        const now = new Date();
+        const timeNC = now.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const timeEU = now.toLocaleTimeString('en-US', { timeZone: 'Europe/Brussels', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+        ['Hannah', 'Daddy'].forEach(v => {
+          const elNC = document.getElementById(`clock-nc-${v}`);
+          const elEU = document.getElementById(`clock-europe-${v}`);
+          if (elNC) elNC.innerText = timeNC;
+          if (elEU) elEU.innerText = timeEU;
+        });
+      }, 1000);
+    }
+
+    function startCountdown() {
+      setInterval(() => {
+        const target = new Date(state.targetDate).getTime();
+        const now = Date.now();
+        const diff = target - now;
+
+        const days = diff > 0 ? Math.floor(diff / (1000 * 60 * 60 * 24)) : 0;
+        const hours = diff > 0 ? Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) : 0;
+        const mins = diff > 0 ? Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)) : 0;
+        const secs = diff > 0 ? Math.floor((diff % (1000 * 60)) / 1000) : 0;
+
+        ['Hannah', 'Daddy'].forEach(v => {
+          const d = document.getElementById(`cd-${v}-days`);
+          const h = document.getElementById(`cd-${v}-hours`);
+          const m = document.getElementById(`cd-${v}-mins`);
+          const s = document.getElementById(`cd-${v}-secs`);
+
+          if (d) d.innerText = String(days).padStart(2, '0');
+          if (h) h.innerText = String(hours).padStart(2, '0');
+          if (m) m.innerText = String(mins).padStart(2, '0');
+          if (s) s.innerText = String(secs).padStart(2, '0');
+        });
+      }, 1000);
+    }
+
+    function setMood(person, emoji, text) {
+      if (person === 'hannah') state.hannahMood = { emoji, text };
+      else state.daddyMood = { emoji, text };
+
+      if (emoji === '😴') {
+        showToast("You're not tired! 😉 ☕ Go grab an espresso!");
+      } else {
+        showToast("Mood updated!");
+      }
+
+      saveState();
+      renderDashboards();
+    }
+
+    function saveHannahNote(btn) {
+      const val = document.getElementById('ctrl-hannah-note').value.trim();
+      if (val) {
+        state.hannahNote = val;
+        saveState();
+        renderDashboards();
+        if (btn) { btn.innerText = "✓ Saved!"; setTimeout(() => btn.innerText = "Save Note", 1500); }
+        showToast("Hannah's note saved!");
+      }
+    }
+
+    function saveDaddyNote(btn) {
+      const val = document.getElementById('ctrl-daddy-note').value.trim();
+      if (val) {
+        state.daddyNote = val;
+        saveState();
+        renderDashboards();
+        if (btn) { btn.innerText = "✓ Saved!"; setTimeout(() => btn.innerText = "Save Note", 1500); }
+        showToast("Daddy's note saved!");
+      }
+    }
+
+    function postDinner(author) {
+      const input = document.getElementById(`dinner-input-${author}`);
+      const text = input ? input.value.trim() : '';
+      if (!text) return;
+
+      const newPost = {
+        id: Date.now().toString(),
+        author: author,
+        text: text,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: Date.now(),
+        reactions: { '❤️': 0, '👍': 0, '🤗': 0, '😄': 0, '👏': 0 }
+      };
+
+      state.dinnerPosts.unshift(newPost);
+      if (input) input.value = '';
+      saveState();
+      renderDashboards();
+    }
+
+    function reactDinner(postId, emoji) {
+      const post = state.dinnerPosts.find(p => p.id === postId);
+      if (post) {
+        post.reactions[emoji] = (post.reactions[emoji] || 0) + 1;
+        saveState();
+        renderDashboards();
+      }
+    }
+
+    function renderDinnerFeed(viewer) {
+      const container = document.getElementById(`dinner-feed-list-${viewer}`);
+      if (!container) return;
+
+      const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
+      const validPosts = state.dinnerPosts.filter(p => (Date.now() - p.timestamp) < threeDaysMs);
+
+      if (validPosts.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-400 italic text-center py-4">No recent dinner posts. Share what you ate today above!</p>`;
+        return;
+      }
+
+      container.innerHTML = validPosts.map(p => `
+        <div class="p-4 glass-card-subtle rounded-2xl space-y-2 border border-slate-200/40 dark:border-slate-700/40">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-bold ${p.author === 'Hannah' ? 'accent-text' : 'text-indigo-400'}">
+              ${p.author === 'Hannah' ? '👧 Hannah' : '👨 Daddy'}
+            </span>
+            <span class="text-slate-400">${p.time}</span>
+          </div>
+          <p class="text-sm font-medium text-slate-800 dark:text-slate-200">${p.text}</p>
+          
+          <div class="flex flex-wrap gap-1.5 pt-1">
+            ${Object.entries(p.reactions).map(([emoji, count]) => `
+              <button onclick="reactDinner('${p.id}', '${emoji}')" class="px-2.5 py-1 glass-card hover:scale-105 active:scale-95 rounded-xl text-xs flex items-center space-x-1.5 transition">
+                <span>${emoji}</span>
+                <span class="font-bold text-[10px] text-slate-500 dark:text-slate-400">${count}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setupDragAndDrop() {
+      const zone = document.getElementById('drop-zone');
+      if (!zone) return;
+
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        zone.addEventListener(eventName, e => {
+          e.preventDefault();
+          e.stopPropagation();
+        }, false);
+      });
+
+      zone.addEventListener('drop', e => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length) handleFileUpload({ target: { files } });
+      });
+    }
+
+    function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          state.hugPhoto = evt.target.result;
+          saveState();
+          showToast("New Hug Memory Photo Uploaded!");
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function selectSamplePhoto(src) {
+      state.hugPhoto = src;
+      saveState();
+      showToast("Sample photo selected!");
+    }
+
+    function switchTab(tabId) {
+      activeTab = tabId;
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`sec-${tabId}`).classList.remove('hidden');
+
+      ['hannah-view', 'daddy-view', 'hannah-ctrl', 'daddy-ctrl'].forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        if (t === tabId) {
+          btn.className = "px-3.5 py-1.5 rounded-xl transition-all shadow-md bg-white dark:bg-slate-800 accent-text font-bold";
+        } else {
+          btn.className = "px-3.5 py-1.5 rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        }
+      });
+
+      checkPendingHugsForActiveTab();
+    }
+
+    function setTheme(t) {
+      applyTheme(t);
+      saveState();
+      showToast("Theme updated!");
+    }
+
+    function updateDaddyLocation(val) {
+      state.daddyLocation = val;
+      saveState();
+      renderDashboards();
+      showToast("Location updated!");
+    }
+
+    function saveCountdownDate(btn) {
+      const val = document.getElementById('ctrl-target-date').value;
+      if (val) {
+        state.targetDate = new Date(val).toISOString();
+        saveState();
+        if (btn) { btn.innerText = "✓ Saved!"; setTimeout(() => btn.innerText = "Update Countdown", 1500); }
+        showToast("Countdown date updated!");
+      }
+    }
+
+    function openWordVault() {
+      const modal = document.getElementById('word-vault-modal');
+      const list = document.getElementById('word-vault-list');
+      list.innerHTML = PAST_WORDS.map(w => `
+        <div class="p-3.5 glass-card-subtle rounded-2xl border border-slate-200/50 dark:border-slate-700/50">
+          <h5 class="font-bold text-sm accent-text">${w.word}</h5>
+          <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">${w.def}</p>
+        </div>
+      `).join('');
+      modal.classList.remove('hidden');
+    }
+
+    function closeWordVault() {
+      document.getElementById('word-vault-modal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
